@@ -1,5 +1,5 @@
 from validators.url import url
-
+from urlextract import URLExtract
 from userbot import catub
 from userbot.core.logger import logging
 
@@ -11,6 +11,7 @@ plugin_category = "utils"
 LOGS = logging.getLogger(__name__)
 cmdhd = Config.COMMAND_HAND_LER
 
+extractor = URLExtract()
 vlist = [
     "ALIVE_PIC",
     "ALIVE_EMOJI",
