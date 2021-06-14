@@ -1,5 +1,6 @@
-from validators.url import url
 from urlextract import URLExtract
+from validators.url import url
+
 from userbot import catub
 from userbot.core.logger import logging
 
