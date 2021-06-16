@@ -30,11 +30,14 @@ except Exception as e:
     LOGS.error(f"{str(e)}")
     sys.exit()
 
+
 class CatCheck:
     def __init__(self):
-        self.sucess = True 
+        self.sucess = True
+
 
 Catcheck = CatCheck()
+
 
 async def startup_process():
     check = await ipchange()
