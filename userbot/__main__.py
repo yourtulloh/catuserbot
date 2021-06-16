@@ -22,7 +22,6 @@ print("Licensed under the terms of the " + userbot.__license__)
 
 cmdhr = Config.COMMAND_HAND_LER
 
-
 try:
     LOGS.info("Starting Userbot")
     catub.loop.run_until_complete(setup_bot())
@@ -31,11 +30,17 @@ except Exception as e:
     LOGS.error(f"{str(e)}")
     sys.exit()
 
+class CatCheck:
+    def __init__(self):
+        self.sucess = True 
+
+Catcheck = CatCheck()
 
 async def startup_process():
     check = await ipchange()
     if check is not None:
-        return False
+        Catcheck.sucess = False
+        return
     await verifyLoggerGroup()
     await load_plugins("plugins")
     await load_plugins("assistant")
@@ -51,14 +56,15 @@ async def startup_process():
     await add_bot_to_logger_group(PM_LOGGER_GROUP_ID)
     await catub.send_message("me", "test")
     await startupmessage()
-    return True
+    Catcheck.sucess = True
+    return
 
 
-catub.loop.run_until_complete(checkcatuserbot=await startup_process())
+catub.loop.run_until_complete(startup_process())
 
 if len(sys.argv) not in (1, 3, 4):
     catub.disconnect()
-elif not checkcatuserbot:
+elif not Catcheck.sucess:
     catub.disconnect()
 else:
     try:
