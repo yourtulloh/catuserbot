@@ -53,8 +53,6 @@ async def startup_process():
     await startupmessage()
 
 
-
-
 if len(sys.argv) not in (1, 3, 4):
     catub.disconnect()
 else:
@@ -62,5 +60,5 @@ else:
         catub.run_until_disconnected()
     except ConnectionError:
         pass
-    
+
 catub.loop.run_until_complete(startup_process())
