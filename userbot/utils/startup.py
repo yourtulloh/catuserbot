@@ -1,6 +1,7 @@
 import glob
 import os
 import sys
+from asyncio.exceptions import CancelledError
 from datetime import timedelta
 from pathlib import Path
 
@@ -108,6 +109,10 @@ async def ipchange():
     if oldip != newip:
         delgvar("ipaddress")
         LOGS.info("Ip Change detected")
+        try:
+            await catub.disconnect()
+        except (ConnectionError, CancelledError):
+            pass
         return "ip change"
 
 
