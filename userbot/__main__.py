@@ -49,10 +49,11 @@ async def startup_process():
     await verifyLoggerGroup()
     await add_bot_to_logger_group(BOTLOG_CHATID)
     await add_bot_to_logger_group(PM_LOGGER_GROUP_ID)
+    await catub.send_message("me", "test")
     await startupmessage()
 
 
-catub.loop.run_until_complete(startup_process())
+
 
 if len(sys.argv) not in (1, 3, 4):
     catub.disconnect()
@@ -61,3 +62,5 @@ else:
         catub.run_until_disconnected()
     except ConnectionError:
         pass
+    
+catub.loop.run_until_complete(startup_process())
