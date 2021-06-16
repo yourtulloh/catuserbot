@@ -109,10 +109,6 @@ async def ipchange():
     if oldip != newip:
         delgvar("ipaddress")
         LOGS.info("Ip Change detected")
-        try:
-            await catub.disconnect()
-        except (ConnectionError, CancelledError):
-            pass
         return "ip change"
 
 
