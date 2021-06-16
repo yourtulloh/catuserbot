@@ -69,8 +69,11 @@ if len(sys.argv) not in (1, 3, 4):
     catub.disconnect()
 elif not Catcheck.sucess:
     print(1)
-    catub.run_until_disconnected()
-    catub.disconnect()
+    try:
+        catub.run_until_disconnected()
+        catub.disconnect()
+    except (ConnectionError, CancelledError):
+        print(4)
 else:
     try:
         print(2)
