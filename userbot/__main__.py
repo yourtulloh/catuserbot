@@ -2,7 +2,7 @@ import sys
 import time
 
 import userbot
-from userbot import BOTLOG_CHATID, PM_LOGGER_GROUP_ID
+from userbot import BOTLOG_CHATID, PM_LOGGER_GROUP_ID, HEROKU_APP
 
 from .Config import Config
 from .core.logger import logging
@@ -68,16 +68,10 @@ catub.loop.run_until_complete(startup_process())
 if len(sys.argv) not in (1, 3, 4):
     catub.disconnect()
 elif not Catcheck.sucess:
-    print(1)
-    try:
-        catub.run_until_disconnected()
-        time.sleep(5)
-        catub.disconnect()
-    except (ConnectionError, CancelledError):
-        print(4)
+    if HEROKU_APP is not None:
+        HEROKU_APP.restart()
 else:
     try:
-        print(2)
         catub.run_until_disconnected()
     except ConnectionError:
-        print(3)
+        pass
