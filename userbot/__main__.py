@@ -1,5 +1,5 @@
 import sys
-
+import time
 import userbot
 from userbot import BOTLOG_CHATID, PM_LOGGER_GROUP_ID
 
@@ -70,6 +70,7 @@ elif not Catcheck.sucess:
     print(1)
     try:
         catub.run_until_disconnected()
+        time.sleep(5)
         catub.disconnect()
     except (ConnectionError, CancelledError):
         print(4)
