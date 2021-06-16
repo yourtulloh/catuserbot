@@ -57,7 +57,6 @@ async def startup_process():
     await verifyLoggerGroup()
     await add_bot_to_logger_group(BOTLOG_CHATID)
     await add_bot_to_logger_group(PM_LOGGER_GROUP_ID)
-    await catub.send_message("me", "test")
     await startupmessage()
     Catcheck.sucess = True
     return
