@@ -35,7 +35,7 @@ except Exception as e:
 async def startup_process():
     check = await ipchange()
     if check is not None:
-        return
+        return False
     await verifyLoggerGroup()
     await load_plugins("plugins")
     await load_plugins("assistant")
@@ -51,14 +51,16 @@ async def startup_process():
     await add_bot_to_logger_group(PM_LOGGER_GROUP_ID)
     await catub.send_message("me", "test")
     await startupmessage()
+    return True
 
+catub.loop.run_until_complete(checkcatuserbot = startup_process())    
 
 if len(sys.argv) not in (1, 3, 4):
+    catub.disconnect()
+elif not checkcatuserbot:
     catub.disconnect()
 else:
     try:
         catub.run_until_disconnected()
     except ConnectionError:
         pass
-
-catub.loop.run_until_complete(startup_process())
