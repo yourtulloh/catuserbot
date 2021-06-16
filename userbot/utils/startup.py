@@ -1,7 +1,6 @@
 import glob
 import os
 import sys
-from asyncio.exceptions import CancelledError
 from datetime import timedelta
 from pathlib import Path
 
