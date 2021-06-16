@@ -76,4 +76,3 @@ else:
         catub.run_until_disconnected()
     except ConnectionError:
         print(3)
-        pass
