@@ -197,7 +197,7 @@ async def info(event):
         return
     caption = await fetch_info(chat, event)
     try:
-         await catevent.edit(caption, parse_mode="html")
+        await catevent.edit(caption, parse_mode="html")
     except Exception as e:
         if BOTLOG:
             await event.client.send_message(
@@ -239,7 +239,7 @@ async def get_chatinfo(event, catevent):
             return None
         except (TypeError, ValueError) as err:
             LOGS.info(err)
-            await edit_delete(catevent,"**Error:**\n__Can't fetch the chat__")
+            await edit_delete(catevent, "**Error:**\n__Can't fetch the chat__")
             return None
     return chat_info
 
