@@ -149,6 +149,7 @@ async def _(event):
             catevent,
             message,
             deflink=True,
+            noformat=True,
             linktext=f"Nekobin is down so pasted to deldog",
         )
     reply_text = f"**Pasted to Nekobin : **[neko]({url})\n**Raw url : **[Raw](https://nekobin.com/raw/{key})"
