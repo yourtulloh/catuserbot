@@ -106,6 +106,7 @@ async def _(event):
         pastetype = "n"
     else:
         pastetype = event.pattern_match.group(1) or "p"
+    text_to_print = ""
     if input_str:
         text_to_print = input_str
     if text_to_print == "" and reply.media:
