@@ -1,5 +1,6 @@
 import os
 import re
+
 import pygments
 import requests
 from pygments.formatters import ImageFormatter
@@ -101,7 +102,7 @@ async def _(event):
         input_str = input_str.replace(ext[0], "").strip()
     except IndexError:
         extension = None
-    if event.pattern_match.group(2) =="neko":
+    if event.pattern_match.group(2) == "neko":
         pastetype = "n"
     else:
         pastetype = event.pattern_match.group(1) or "p"
@@ -121,7 +122,7 @@ async def _(event):
             "`Either reply to text/code file or reply to text message or give text along with command`",
         )
     try:
-        response = await pastetext(text_to_print, pastetype,extension)
+        response = await pastetext(text_to_print, pastetype, extension)
         if error in response:
             return await edit_delete(
                 catevent,
