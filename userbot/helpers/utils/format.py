@@ -7,29 +7,15 @@ from telethon.tl.types import MessageEntityPre
 from telethon.utils import add_surrogate
 
 from ..functions.utils import utc_to_local
-
+from .paste import pastetext
 
 def paste_text(text, markdown=True):
     if markdown:
         asciich = ["**", "`", "__"]
         for i in asciich:
             text = re.sub(rf"\{i}", "", text)
-    try:
-        nekokey = (
-            requests.post("https://nekobin.com/api/documents", json={"content": text})
-            .json()
-            .get("result")
-            .get("key")
-        )
-        link = f"https://nekobin.com/{nekokey}"
-    except Exception:
-        text = text.encode(encoding="latin-1", errors="namereplace")
-        url = "https://del.dog/documents"
-        r = requests.post(url, data=text).json()
-        link = f"https://del.dog/{r['key']}"
-        if r["isUrl"]:
-            link = f"https://del.dog/v/{r['key']}"
-    return link
+    response = await pastetext(text)
+    return response["url"]
 
 
 def mentionuser(name, userid):
