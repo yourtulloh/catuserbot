@@ -2,6 +2,9 @@ import json
 
 import requests
 
+headers = { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36",
+           'content-type': 'application/json'
+            }
 
 async def p_paste(message, extension=None):
     """
@@ -9,7 +12,7 @@ async def p_paste(message, extension=None):
     """
     siteurl = "https://pasty.lus.pm/api/v1/pastes/"
     data = {"content": message}
-    response = requests.post(url=siteurl, data=json.dumps(data))
+    response = requests.post(url=siteurl, data=json.dumps(data),headers=headers)
     if response.ok:
         response = response.json()
         if extension is None:
@@ -31,7 +34,7 @@ async def s_paste(message):
     To Paste the given message/text/code to spaceb.in
     """
     siteurl = "https://spaceb.in/api/v1/documents/"
-    response = requests.post(siteurl, data={"content": message, "extension": "txt"})
+    response = requests.post(siteurl, data={"content": message, "extension": "txt"},headers=headers)
     if response.ok:
         response = response.json()
         if response["error"] != "" and response["status"] < 400:
@@ -49,7 +52,7 @@ async def n_paste(message, extension=None):
     """
     siteurl = "https://nekobin.com/api/documents"
     data = {"content": message}
-    response = requests.post(url=siteurl, data=json.dumps(data))
+    response = requests.post(url=siteurl, data=json.dumps(data),headers=headers)
     if response.ok:
         response = response.json()
         if extension is None:
