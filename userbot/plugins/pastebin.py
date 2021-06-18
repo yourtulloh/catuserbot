@@ -125,7 +125,7 @@ async def _(event):
         )
     try:
         response = await pastetext(text_to_print, pastetype, extension)
-        if error in response:
+        if "error" in response:
             return await edit_delete(
                 catevent,
                 f"**Error while pasting text:**\n`Unable to process your request may be pastebins are down.`",
