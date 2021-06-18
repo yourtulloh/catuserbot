@@ -20,7 +20,11 @@ async def p_paste(message, extension=None):
         return {"error": str(e)}
     if response.ok:
         response = response.json()
-        purl = f"https://pasty.lus.pm/{response['id']}.{extension}" if extension else f"https://pasty.lus.pm/{response['id']}"
+        purl = (
+            f"https://pasty.lus.pm/{response['id']}.{extension}"
+            if extension
+            else f"https://pasty.lus.pm/{response['id']}"
+        )
         return {
             "url": purl,
             "raw": "",
@@ -61,12 +65,17 @@ async def n_paste(message, extension=None):
         return {"error": str(e)}
     if response.ok:
         response = response.json()
-        purl = f"nekobin.com/{response['result']['key']}.{extension}"  if extension else f"nekobin.com/{response['result']['key']}"
+        purl = (
+            f"nekobin.com/{response['result']['key']}.{extension}"
+            if extension
+            else f"nekobin.com/{response['result']['key']}"
+        )
         return {
             "url": purl,
             "raw": f"nekobin.com/raw/{response['result']['key']}",
         }
     return {"error": "Unable to reach nekobin."}
+
 
 async def d_paste(message, extension=None):
     """
@@ -80,7 +89,11 @@ async def d_paste(message, extension=None):
         return {"error": str(e)}
     if response.ok:
         response = response.json()
-        purl = f"https://del.dog/{response['key']}.{extension}" if extension else f"https://del.dog/{response['key']}"
+        purl = (
+            f"https://del.dog/{response['key']}.{extension}"
+            if extension
+            else f"https://del.dog/{response['key']}"
+        )
         return {
             "url": purl,
             "raw": f"https://del.dog/raw/{response['key']}",
