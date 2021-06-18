@@ -15,7 +15,7 @@ from ..Config import Config
 from ..core.logger import logging
 from ..core.managers import edit_delete, edit_or_reply
 from ..helpers.tools import media_type
-from ..helpers.utils import reply_id,pastetext
+from ..helpers.utils import pastetext, reply_id
 
 plugin_category = "utils"
 
