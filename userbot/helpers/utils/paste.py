@@ -33,13 +33,13 @@ async def p_paste(message, extension=None):
     return {"error": "Unable to reach pasty.lus.pm"}
 
 
-async def s_paste(message):
+async def s_paste(message,extension="txt"):
     """
     To Paste the given message/text/code to spaceb.in
     """
     siteurl = "https://spaceb.in/api/v1/documents/"
     try:
-        response = requests.post(siteurl, data={"content": message, "extension": "txt"})
+        response = requests.post(siteurl, data={"content": message, "extension": extension})
     except Exception as e:
         return {"error": str(e)}
     if response.ok:
