@@ -1,13 +1,13 @@
 import datetime
 import re
 
-import requests
 from telethon.tl.tlobject import TLObject
 from telethon.tl.types import MessageEntityPre
 from telethon.utils import add_surrogate
 
 from ..functions.utils import utc_to_local
 from .paste import pastetext
+
 
 def paste_text(text, markdown=True):
     if markdown:
