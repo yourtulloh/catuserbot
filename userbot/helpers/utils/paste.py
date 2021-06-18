@@ -10,24 +10,23 @@ async def p_paste(message, extension=None):
     """
     To Paste the given message/text/code to paste.pelkum.dev
     """
-    siteurl = "https://pasty.lus.pm/api/v1/pastes/"
+    siteurl = "https://pasty.lus.pm/api/v1/pastes"
     data = {"content": message}
     response = requests.post(url=siteurl, data=json.dumps(data),headers=headers)
     if response.ok:
         response = response.json()
         if extension is None:
             return {
-                "url": f"https://paste.pelkum.dev/{response['id']}",
+                "url": f"https://paste.lus.dev/{response['id']}",
                 "raw": "",
                 "token": response["deletionToken"],
             }
         return {
-            "url": f"https://paste.pelkum.dev/{response['id']}.{extension}",
+            "url": f"https://paste.lus.dev/{response['id']}.{extension}",
             "raw": "",
             "token": response["deletionToken"],
         }
     return {"error": "Unable to reach pasty.lus.pm"}
-
 
 async def s_paste(message):
     """
