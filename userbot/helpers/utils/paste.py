@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 
 async def p_paste(message, extension=None):
