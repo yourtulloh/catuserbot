@@ -17,7 +17,7 @@ import ssl
 import sys
 import time  # Importing the time library to check the time of code execution
 import urllib.request
-from http.client import BadStatusLine, IncompleteRead
+from http.client import BadStatusLine
 from urllib.parse import quote
 from urllib.request import HTTPError, Request, URLError, urlopen
 
@@ -1173,15 +1173,13 @@ class googleimagesdownload:
                             list_file.write(path + "\t" + img_src + "\n")
                     absolute_path = os.path.abspath(path)
                 except OSError as e:
-                    download_status = 'fail'
+                    download_status = "fail"
                     download_message = (
-                        'OSError on an image...trying next one...'
-                        + ' Error: '
-                        + str(e)
+                        "OSError on an image...trying next one..." + " Error: " + str(e)
                     )
 
-                    return_image_name = ''
-                    absolute_path = ''
+                    return_image_name = ""
+                    absolute_path = ""
                 # return image name back to calling method to use it for
                 # thumbnail downloads
                 download_status = "success"
@@ -1195,64 +1193,61 @@ class googleimagesdownload:
                     print("Image Size: " + str(self.file_size(path)))
 
             except UnicodeEncodeError as e:
-                download_status = 'fail'
+                download_status = "fail"
                 download_message = (
-                    'UnicodeEncodeError on an image...trying next one...'
-                    + ' Error: '
+                    "UnicodeEncodeError on an image...trying next one..." + " Error: "
                 ) + str(e)
 
-                return_image_name = ''
-                absolute_path = ''
+                return_image_name = ""
+                absolute_path = ""
             except URLError as e:
-                download_status = 'fail'
+                download_status = "fail"
                 download_message = (
-                    'URLError on an image...trying next one...'
-                    + ' Error: '
-                    + str(e)
+                    "URLError on an image...trying next one..." + " Error: " + str(e)
                 )
 
-                return_image_name = ''
-                absolute_path = ''
+                return_image_name = ""
+                absolute_path = ""
             except BadStatusLine as e:
-                download_status = 'fail'
+                download_status = "fail"
                 download_message = (
-                    'BadStatusLine on an image...trying next one...' + ' Error: '
+                    "BadStatusLine on an image...trying next one..." + " Error: "
                 ) + str(e)
 
-                return_image_name = ''
-                absolute_path = ''
+                return_image_name = ""
+                absolute_path = ""
         except HTTPError as e:
-            download_status = 'fail'
+            download_status = "fail"
             download_message = (
-                'HTTPError on an image...trying next one...' + ' Error: ' + str(e)
+                "HTTPError on an image...trying next one..." + " Error: " + str(e)
             )
 
-            return_image_name = ''
-            absolute_path = ''
+            return_image_name = ""
+            absolute_path = ""
         except URLError as e:
-            download_status = 'fail'
+            download_status = "fail"
             download_message = (
-                'URLError on an image...trying next one...' + ' Error: ' + str(e)
+                "URLError on an image...trying next one..." + " Error: " + str(e)
             )
 
-            return_image_name = ''
-            absolute_path = ''
+            return_image_name = ""
+            absolute_path = ""
         except ssl.CertificateError as e:
-            download_status = 'fail'
+            download_status = "fail"
             download_message = (
-                'CertificateError on an image...trying next one...' + ' Error: '
+                "CertificateError on an image...trying next one..." + " Error: "
             ) + str(e)
 
-            return_image_name = ''
-            absolute_path = ''
+            return_image_name = ""
+            absolute_path = ""
         except IOError as e:
-            download_status = 'fail'
+            download_status = "fail"
             download_message = (
-                'IOError on an image...trying next one...' + ' Error: ' + str(e)
+                "IOError on an image...trying next one..." + " Error: " + str(e)
             )
 
-            return_image_name = ''
-            absolute_path = ''
+            return_image_name = ""
+            absolute_path = ""
         return download_status, download_message, return_image_name, absolute_path
 
     # Finding 'Next Image' from the given raw page
