@@ -1,12 +1,11 @@
 import json
-
+from userbot import catub,BOTLOG_CHATID
 import requests
 
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36",
     "content-type": "application/json",
 }
-
 
 async def p_paste(message, extension=None):
     """
@@ -25,10 +24,10 @@ async def p_paste(message, extension=None):
             if extension
             else f"https://pasty.lus.pm/{response['id']}"
         )
+        await catub.send_message(BOTLOG_CHATID,f"You have created a new paste in pasty bin. Link to pasty is [here]({purl}). You can delete that paste by using this token {response["deletionToken"]}")
         return {
             "url": purl,
             "raw": "",
-            "token": response["deletionToken"],
         }
     return {"error": "Unable to reach pasty.lus.pm"}
 
@@ -101,3 +100,28 @@ async def d_paste(message, extension=None):
             "raw": f"https://del.dog/raw/{response['key']}",
         }
     return {"error": "Unable to reach dogbin."}
+
+async def pastetext(text_to_print,extension="p"):
+    response = {}
+    if pastetype == "p":
+        response = await p_paste(text_to_print,extension)
+    elif pastetype == "s" and extension:
+        response = await s_paste(text_to_print,extension)
+    elif pastetype == "s":
+        response = await s_paste(text_to_print)
+    elif pastetype == "d":
+        response = await d_paste(text_to_print,extension)
+    elif pastetype == "n":
+        response = await n_paste(text_to_print,extension)
+    if "error" in response:
+        response = await p_paste(text_to_print,extension)
+    if "error" in response:
+        response = await n_paste(text_to_print,extension)
+    if "error" in response:
+        if extension:
+            response = await s_paste(text_to_print,extension)
+        else:
+            response = await s_paste(text_to_print)
+    if "error" in response:
+        response = await d_paste(text_to_print,extension)
+    return response
