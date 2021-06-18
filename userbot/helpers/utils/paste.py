@@ -34,7 +34,7 @@ async def p_paste(message, extension=None):
 
             await catub.send_message(
                 Config.BOTLOG_CHATID,
-                f"You have created a new paste in pasty bin. Link to pasty is [here]({purl}). You can delete that paste by using this token {response['deletionToken']}",
+                f"**You have created a new paste in pasty bin.** Link to pasty is [here]({purl}). You can delete that paste by using this token `{response['deletionToken']}`",
             )
         except Exception as e:
             LOGS.info(str(e))
