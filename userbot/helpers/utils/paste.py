@@ -24,10 +24,11 @@ async def p_paste(message, extension=None):
             if extension
             else f"https://pasty.lus.pm/{response['id']}"
         )
-        await catub.send_message(BOTLOG_CHATID,f"You have created a new paste in pasty bin. Link to pasty is [here]({purl}). You can delete that paste by using this token {response["deletionToken"]}")
+        await catub.send_message(BOTLOG_CHATID,f"You have created a new paste in pasty bin. Link to pasty is [here]({purl}). You can delete that paste by using this token {response['deletionToken']}")
         return {
             "url": purl,
             "raw": "",
+            "bin": "Pasty",
         }
     return {"error": "Unable to reach pasty.lus.pm"}
 
@@ -50,6 +51,7 @@ async def s_paste(message, extension="txt"):
         return {
             "url": f"https://spaceb.in/{response['payload']['id']}",
             "raw": f"{siteurl}{response['payload']['id']}/raw",
+            "bin": "Spacebin",
         }
     return {"error": "Unable to reach spacebin."}
 
@@ -74,6 +76,7 @@ async def n_paste(message, extension=None):
         return {
             "url": purl,
             "raw": f"nekobin.com/raw/{response['result']['key']}",
+            "bin": "Neko",
         }
     return {"error": "Unable to reach nekobin."}
 
@@ -98,6 +101,7 @@ async def d_paste(message, extension=None):
         return {
             "url": purl,
             "raw": f"https://del.dog/raw/{response['key']}",
+            "bin": "Dog",
         }
     return {"error": "Unable to reach dogbin."}
 
