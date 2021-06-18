@@ -17,12 +17,12 @@ async def p_paste(message, extension=None):
         response = response.json()
         if extension is None:
             return {
-                "url": f"https://paste.lus.dev/{response['id']}",
+                "url": f"https://paste.lus.pm/{response['id']}",
                 "raw": "",
                 "token": response["deletionToken"],
             }
         return {
-            "url": f"https://paste.lus.dev/{response['id']}.{extension}",
+            "url": f"https://paste.lus.pm/{response['id']}.{extension}",
             "raw": "",
             "token": response["deletionToken"],
         }
