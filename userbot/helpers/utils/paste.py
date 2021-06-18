@@ -119,7 +119,7 @@ async def d_paste(message, extension=None):
     return {"error": "Unable to reach dogbin."}
 
 
-async def pastetext(text_to_print,pastetype="p", extension=None):
+async def pastetext(text_to_print, pastetype="p", extension=None):
     response = {"error": "something went wrong"}
     if pastetype == "p":
         response = await p_paste(text_to_print, extension)
