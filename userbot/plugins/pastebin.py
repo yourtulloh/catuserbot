@@ -4,7 +4,6 @@ import pygments
 import requests
 from pygments.formatters import ImageFormatter
 from pygments.lexers import Python3Lexer
-from pygments.lexers.markup import MarkdownLexer
 from requests import exceptions, get
 from telethon import events
 from telethon.errors.rpcerrorlist import YouBlockedUserError
@@ -15,11 +14,12 @@ from ..Config import Config
 from ..core.logger import logging
 from ..core.managers import edit_delete, edit_or_reply
 from ..helpers.tools import media_type
-from ..helpers.utils import _format, reply_id
+from ..helpers.utils import reply_id
 
 plugin_category = "utils"
 
 LOGS = logging.getLogger(__name__)
+
 
 @catub.cat_cmd(
     pattern="pcode(?: |$)(.*)",
@@ -39,7 +39,7 @@ async def _(event):
     text_to_print = ""
     if input_str:
         text_to_print = input_str
-    if text_to_print=="" and reply.media:
+    if text_to_print == "" and reply.media:
         mediatype = media_type(reply)
         if mediatype == "Document":
             d_file_name = await event.client.download_media(reply, Config.TEMP_DIR)
@@ -49,9 +49,9 @@ async def _(event):
         text_to_print = reply.raw_text
     else:
         return await edit_delete(
-                catevent,
-                "`Either reply to text/code file or reply to text message or give text along with command`",
-            )
+            catevent,
+            "`Either reply to text/code file or reply to text message or give text along with command`",
+        )
     pygments.highlight(
         text_to_print,
         Python3Lexer(),
@@ -64,7 +64,7 @@ async def _(event):
         )
         await catevent.delete()
         os.remove("out.png")
-        if d_file_name is not None: 
+        if d_file_name is not None:
             os.remove(d_file_name)
     except Exception as e:
         await edit_delete(catevent, f"**Error:**\n`{str(e)}`", time=10)
@@ -76,13 +76,19 @@ async def _(event):
     info={
         "header": "To paste text to a paste bin.",
         "description": "Uploads the given text to website so that you can share text/code with others easily. If no flag is used then it will use p as default",
-        "flags":{
+        "flags": {
             "d": "Will paste text to dog.bin",
             "p": "Will paste text to pasty.lus.pm",
             "s": "Will paste text to spaceb.in (language extension not there at present.)",
         },
-        "usage": ["{tr}{flags}paste <reply/text>", "{tr}{flags}paste {extension} <reply/text>"],
-        "examples": ["{tr}spaste <reply/text>", "{tr}ppaste -py await event.client.send_message(chat,'Hello! testing123 123')"],
+        "usage": [
+            "{tr}{flags}paste <reply/text>",
+            "{tr}{flags}paste {extension} <reply/text>",
+        ],
+        "examples": [
+            "{tr}spaste <reply/text>",
+            "{tr}ppaste -py await event.client.send_message(chat,'Hello! testing123 123')",
+        ],
     },
 )
 async def _(event):
@@ -91,14 +97,14 @@ async def _(event):
     input_str = event.pattern_match.group(3)
     ext = re.findall(r"-\w+", input_str)
     try:
-        extension = ext[0].replace("-","")
-        input_str = input_str.replace(ext[0],"").strip()
+        extension = ext[0].replace("-", "")
+        input_str = input_str.replace(ext[0], "").strip()
     except IndexError:
         extension = None
-    pastetype = event.pattern_match.group(1) or "p"
+    event.pattern_match.group(1) or "p"
     if input_str:
         text_to_print = input_str
-    if text_to_print=="" and reply.media:
+    if text_to_print == "" and reply.media:
         mediatype = media_type(reply)
         if mediatype == "Document":
             d_file_name = await event.client.download_media(reply, Config.TEMP_DIR)
@@ -108,19 +114,21 @@ async def _(event):
         text_to_print = reply.raw_text
     else:
         return await edit_delete(
-                catevent,
-                "`Either reply to text/code file or reply to text message or give text along with command`",
-            )
+            catevent,
+            "`Either reply to text/code file or reply to text message or give text along with command`",
+        )
     try:
-        response = await pastetext(text_to_print,extension)
+        response = await pastetext(text_to_print, extension)
         if error in response:
-            return await edit_delete(catevent,f"**Error while pasting text:**\n`Unable to process your request may be pastebins are down.`")
+            return await edit_delete(
+                catevent,
+                f"**Error while pasting text:**\n`Unable to process your request may be pastebins are down.`",
+            )
         result = f"**Pasted text to **[{response['bin']}]({response['url']})"
-        if response['raw'] != "":
+        if response["raw"] != "":
             result += f"\n**Raw link: **[Raw]({response['raw']})"
     except Exception as e:
-        await edit_delete(catevent,f"**Error while pasting text:**\n`{str(e)}`")
-
+        await edit_delete(catevent, f"**Error while pasting text:**\n`{str(e)}`")
 
 
 @catub.cat_cmd(
@@ -129,14 +137,15 @@ async def _(event):
         "header": "To paste text to a neko bin.",
         "description": "Uploads the given text to nekobin so that you can share text/code with others easily.",
         "usage": ["{tr}neko <reply/text>", "{tr}neko {extension} <reply/text>"],
-        "examples": ["{tr}neko <reply/text>", "{tr}neko -py await event.client.send_message(chat,'Hello! testing123 123')"],
+        "examples": [
+            "{tr}neko <reply/text>",
+            "{tr}neko -py await event.client.send_message(chat,'Hello! testing123 123')",
+        ],
     },
 )
 async def _(event):
     "To paste text to a neko bin."
-    #just to show in help menu as seperate
-    pass
-    
+    # just to show in help menu as seperate
 
 
 @catub.cat_cmd(
