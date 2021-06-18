@@ -1,24 +1,20 @@
 import os
 
 import pygments
-import requests
 from pygments.formatters import ImageFormatter
 from pygments.lexers import Python3Lexer
-from requests import exceptions, get
-from telethon import events
-from telethon.errors.rpcerrorlist import YouBlockedUserError
 
 from userbot import catub
 
-from ..Config import Config
 from ..core.logger import logging
 from ..core.managers import edit_delete, edit_or_reply
 from ..helpers.tools import media_type
-from ..helpers.utils import _format, reply_id
+from ..helpers.utils import reply_id
 
 plugin_category = "utils"
 
 LOGS = logging.getLogger(__name__)
+
 
 @catub.cat_cmd(
     pattern="pcode(?: |$)(.*)",
@@ -64,7 +60,7 @@ async def _(event):
         )
         await catevent.delete()
         os.remove("out.png")
-        if d_file_name is not None: 
+        if d_file_name is not None:
             os.remove(d_file_name)
     except Exception as e:
         await edit_delete(catevent, f"**Error:**\n`{str(e)}`", time=10)
