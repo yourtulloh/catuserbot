@@ -34,16 +34,16 @@ async def s_paste(message):
     To Paste the given message/text/code to spaceb.in
     """
     siteurl = "https://spaceb.in/api/v1/documents/"
-    response = requests.post(siteurl, data={"content": message, "extension": "txt"},headers=headers)
+    response = requests.post(siteurl, data={"content": message, "extension": "txt"})
     if response.ok:
         response = response.json()
         if response["error"] != "" and response["status"] < 400:
             return {"error": response["error"]}
         return {
             "url": f"https://spaceb.in/{response['payload']['id']}",
-            "raw": f"{siteurl}/{response['payload']['id']}/raw",
+            "raw": f"{siteurl}{response['payload']['id']}/raw",
         }
-    return {"error": "Unable to reach nekobin."}
+    return {"error": "Unable to reach spacebin."}
 
 
 async def n_paste(message, extension=None):
