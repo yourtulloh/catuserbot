@@ -96,6 +96,7 @@ async def _(event):
     "To paste text to a paste bin."
     catevent = await edit_or_reply(event, "`pasting text to paste bin....`")
     input_str = event.pattern_match.group(3)
+    reply = await event.get_reply_message()
     ext = re.findall(r"-\w+", input_str)
     try:
         extension = ext[0].replace("-", "")
