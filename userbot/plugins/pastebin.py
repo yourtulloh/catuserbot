@@ -1,5 +1,5 @@
 import os
-
+import re
 import pygments
 import requests
 from pygments.formatters import ImageFormatter
@@ -93,7 +93,7 @@ async def _(event):
 )
 async def _(event):
     "To paste text to a paste bin."
-    catevent = await edit_or_reply(event, "`pasting to del dog.....`")
+    catevent = await edit_or_reply(event, "`pasting text to paste bin....`")
     input_str = event.pattern_match.group(3)
     ext = re.findall(r"-\w+", input_str)
     try:
@@ -101,7 +101,10 @@ async def _(event):
         input_str = input_str.replace(ext[0], "").strip()
     except IndexError:
         extension = None
-    event.pattern_match.group(1) or "p"
+    if event.pattern_match.group(2) =="neko":
+        pastetype = "n"
+    else:
+        pastetype = event.pattern_match.group(1) or "p"
     if input_str:
         text_to_print = input_str
     if text_to_print == "" and reply.media:
@@ -118,7 +121,7 @@ async def _(event):
             "`Either reply to text/code file or reply to text message or give text along with command`",
         )
     try:
-        response = await pastetext(text_to_print, extension)
+        response = await pastetext(text_to_print, pastetype,extension)
         if error in response:
             return await edit_delete(
                 catevent,
