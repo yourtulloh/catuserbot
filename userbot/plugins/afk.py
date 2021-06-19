@@ -80,7 +80,9 @@ async def set_not_afk(event):
             )
 
 
-@catub.cat_cmd(incoming=True, func=lambda e: bool(e.mentioned or e.is_private), edited=False)
+@catub.cat_cmd(
+    incoming=True, func=lambda e: bool(e.mentioned or e.is_private), edited=False
+)
 async def on_afk(event):  # sourcery no-metrics
     if AFK_.afk_on is False:
         return
