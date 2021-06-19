@@ -150,7 +150,7 @@ async def _(event):
         result = ""
         if pastebins[response["bin"]] != pastetype:
             result += f"**{get_key(pastetype)} is down, So **"
-        result += f"**Pasted to **[{response['bin']}]({response['url']})"
+        result += f"**Pasted to: **[{response['bin']}]({response['url']})"
         if response["raw"] != "":
             result += f"\n**Raw link: **[Raw]({response['raw']})"
         await catevent.edit(result, link_preview=False)
