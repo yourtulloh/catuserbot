@@ -28,7 +28,7 @@ async def p_paste(message, extension=None):
         purl = (
             f"https://pasty.lus.pm/{response['id']}.{extension}"
             if extension
-            else f"https://pasty.lus.pm/{response['id']}"
+            else f"https://pasty.lus.pm/{response['id']}.txt"
         )
         try:
             from ...core.session import catub
