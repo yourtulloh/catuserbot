@@ -10,12 +10,12 @@ from ..functions.utils import utc_to_local
 from .paste import pastetext
 
 
-async def paste_message(text, markdown=True):
+async def paste_message(text, pasteytype="p",extension=None,markdown=True):
     if markdown:
         asciich = ["**", "`", "__"]
         for i in asciich:
             text = re.sub(rf"\{i}", "", text)
-    response = await pastetext(text)
+    response = await pastetext(text,pastetype,extension)
     return response["url"]
 
 
@@ -88,6 +88,7 @@ def parse_pre(text):
 
 
 def yaml_format(obj, indent=0, max_str_len=256, max_byte_len=64):
+    # sourcery no-metrics
     """
     Pretty formats the given object as a YAML string which is returned.
     (based on TLObject.pretty_format)
