@@ -141,6 +141,8 @@ async def _(event):
                 catevent,
                 "`Either reply to text/code file or reply to text message or give text along with command`",
             )
+    if extension.startswith("."):
+        extension = extension[1:]
     try:
         response = await pastetext(text_to_print, pastetype, extension)
         if "error" in response:
