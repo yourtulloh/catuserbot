@@ -22,16 +22,18 @@ plugin_category = "utils"
 LOGS = logging.getLogger(__name__)
 
 pastebins = {
-    "Pasty" : "p",
-    "Neko" : "n",
+    "Pasty": "p",
+    "Neko": "n",
     "Spacebin": "s",
-    "Dog" : "d",
-    }
+    "Dog": "d",
+}
+
 
 def get_key(val):
     for key, value in pastebins.items():
         if val == value:
             return key
+
 
 @catub.cat_cmd(
     pattern="pcode(?: |$)(.*)",
