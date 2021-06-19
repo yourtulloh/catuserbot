@@ -34,7 +34,7 @@ class AFK:
 AFK_ = AFK()
 
 
-@catub.cat_cmd(outgoing=True)
+@catub.cat_cmd(outgoing=True, edited=False)
 async def set_not_afk(event):
     if AFK_.afk_on is False:
         return
@@ -80,7 +80,7 @@ async def set_not_afk(event):
             )
 
 
-@catub.cat_cmd(incoming=True, func=lambda e: bool(e.mentioned or e.is_private))
+@catub.cat_cmd(incoming=True, func=lambda e: bool(e.mentioned or e.is_private), edited=False)
 async def on_afk(event):  # sourcery no-metrics
     if AFK_.afk_on is False:
         return
