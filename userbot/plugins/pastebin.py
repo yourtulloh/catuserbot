@@ -9,7 +9,6 @@ from requests import exceptions, get
 from telethon import events
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.utils import get_extension
-
 from userbot import catub
 
 from ..Config import Config
@@ -150,7 +149,7 @@ async def _(event):
             )
         result = ""
         if pastebins[response["bin"]] != pastetype:
-            result += f"**{get_key(pastetype)} is down **"
+            result += f"**{get_key(pastetype)} is down, So **"
         result += f"**Pasted text to **[{response['bin']}]({response['url']})"
         if response["raw"] != "":
             result += f"\n**Raw link: **[Raw]({response['raw']})"
