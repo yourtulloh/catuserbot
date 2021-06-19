@@ -2,8 +2,6 @@ import asyncio
 import os
 import re
 
-import requests
-
 from .data import _sudousers_list
 
 
