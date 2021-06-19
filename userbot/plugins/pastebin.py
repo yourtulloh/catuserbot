@@ -92,7 +92,7 @@ async def paste_img(event):
         if d_file_name is not None:
             os.remove(d_file_name)
     except Exception as e:
-        await edit_delete(catevent, f'**Error:**\n`{str(e)}`', time=10)
+        await edit_delete(catevent, f"**Error:**\n`{str(e)}`", time=10)
 
 
 @catub.cat_cmd(
@@ -279,7 +279,7 @@ async def _(event):
             )
     except Exception as e:
         await edit_delete(catevent, f"**Error while pasting text:**\n`{str(e)}`")
-    url = response['url']
+    url = response["url"]
     chat = "@chotamreaderbot"
     # This module is modded by @ViperAdnan #KeepCredit
     await catevent.edit("`Making instant view...`")
