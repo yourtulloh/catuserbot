@@ -5,7 +5,6 @@ import pygments
 import requests
 from pygments.formatters import ImageFormatter
 from pygments.lexers import Python3Lexer
-from requests import exceptions, get
 from telethon import events
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.utils import get_extension
@@ -40,17 +39,24 @@ def get_key(val):
     pattern="pcode(?: |$)(.*)",
     command=("pcode", plugin_category),
     info={
-        "header": "Will paste the entire text on the blank page and will send as image",
-        "usage": ["{tr}pcode <reply>", "{tr}paste text"],
+        "header": "Will paste the entire text on the blank white image.",
+        "usage": ["{tr}pcode <reply>", "{tr}pcode text"],
     },
 )
-async def _(event):
+async def paste_img(event):
     "To paste text to image."
     reply_to = await reply_id(event)
     d_file_name = None
-    catevent = await edit_or_reply(event, "`Pasting the text on blank page`")
+    catevent = await edit_or_reply(event, "`Pasting the text on image`")
     input_str = event.pattern_match.group(1)
     reply = await event.get_reply_message()
+    ext = re.findall(r"-f", input_str)
+    extension = None
+    try:
+        extension = ext[0].replace("-", "")
+        input_str = input_str.replace(ext[0], "").strip()
+    except IndexError:
+        extension = None
     text_to_print = ""
     if input_str:
         text_to_print = input_str
@@ -76,14 +82,17 @@ async def _(event):
     )
     try:
         await event.client.send_file(
-            event.chat_id, "out.png", force_document=False, reply_to=reply_to
+            event.chat_id,
+            "out.png",
+            force_document=bool(extension),
+            reply_to=reply_to,
         )
         await catevent.delete()
         os.remove("out.png")
         if d_file_name is not None:
             os.remove(d_file_name)
     except Exception as e:
-        await edit_delete(catevent, f"**Error:**\n`{str(e)}`", time=10)
+        await edit_delete(catevent, f'**Error:**\n`{str(e)}`', time=10)
 
 
 @catub.cat_cmd(
@@ -107,7 +116,7 @@ async def _(event):
         ],
     },
 )
-async def _(event):
+async def paste_bin(event):
     "To paste text to a paste bin."
     catevent = await edit_or_reply(event, "`pasting text to paste bin....`")
     input_str = event.pattern_match.group(3)
@@ -206,18 +215,18 @@ async def get_dogbin_content(dog_url):
     else:
         await catevent.edit("`Is that even a dogbin url?`")
         return
-    resp = get(f"https://del.dog/raw/{message}")
+    resp = requests.get(f"https://del.dog/raw/{message}")
     try:
         resp.raise_for_status()
-    except exceptions.HTTPError as HTTPErr:
+    except requests.exceptions.HTTPError as HTTPErr:
         await catevent.edit(
             "Request returned an unsuccessful status code.\n\n" + str(HTTPErr)
         )
         return
-    except exceptions.Timeout as TimeoutErr:
+    except requests.exceptions.Timeout as TimeoutErr:
         await catevent.edit("Request timed out." + str(TimeoutErr))
         return
-    except exceptions.TooManyRedirects as RedirectsErr:
+    except requests.exceptions.TooManyRedirects as RedirectsErr:
         await catevent.edit(
             "Request exceeded the configured number of maximum redirections."
             + str(RedirectsErr)
@@ -239,38 +248,41 @@ async def get_dogbin_content(dog_url):
 )
 async def _(event):
     "Create a instant view or a paste it in telegraph file."
-    catevent = await edit_or_reply(event, "`pasting to del dog.....`")
-    input_str = "".join(event.text.split(maxsplit=1)[1:])
-    previous_message = None
+    catevent = await edit_or_reply(event, "`pasting text to paste bin....`")
+    input_str = event.pattern_match.group(1)
+    reply = await event.get_reply_message()
+    extension = None
+    pastetype = "d"
+    text_to_print = ""
     if input_str:
-        message = input_str
-    elif event.reply_to_msg_id:
-        previous_message = await event.get_reply_message()
-        if previous_message.media:
-            downloaded_file_name = await event.client.download_media(
-                previous_message,
-                Config.TEMP_DIR,
-            )
-            m_list = None
-            with open(downloaded_file_name, "rb") as fd:
-                m_list = fd.readlines()
-            message = ""
-            try:
-                for m in m_list:
-                    message += m.decode("UTF-8")
-            except Exception:
-                message = "Usage : .paste <long text to include/reply to text file>"
-            os.remove(downloaded_file_name)
+        text_to_print = input_str
+    if text_to_print == "" and reply.media:
+        mediatype = media_type(reply)
+        if mediatype == "Document":
+            d_file_name = await event.client.download_media(reply, Config.TEMP_DIR)
+            with open(d_file_name, "r") as f:
+                text_to_print = f.read()
+    if text_to_print == "":
+        if reply.text:
+            text_to_print = reply.raw_text
         else:
-            message = previous_message.message
-    else:
-        message = "Usage : .paste <long text to include/reply to text file>"
-    url = "https://del.dog/documents"
-    r = requests.post(url, data=message.encode("UTF-8")).json()
-    url = f"https://del.dog/{r['key']}"
+            return await edit_delete(
+                catevent,
+                "`Either reply to text/code file or reply to text message or give text along with command`",
+            )
+    try:
+        response = await pastetext(text_to_print, pastetype, extension)
+        if "error" in response:
+            return await edit_delete(
+                catevent,
+                f"**Error while pasting text:**\n`Unable to process your request may be pastebins are down.`",
+            )
+    except Exception as e:
+        await edit_delete(catevent, f"**Error while pasting text:**\n`{str(e)}`")
+    url = response['url']
     chat = "@chotamreaderbot"
     # This module is modded by @ViperAdnan #KeepCredit
-    await catevent.edit("**Making instant view...**")
+    await catevent.edit("`Making instant view...`")
     async with event.client.conversation(chat) as conv:
         try:
             response = conv.wait_event(
@@ -282,6 +294,5 @@ async def _(event):
             await catevent.edit("```Please unblock me (@chotamreaderbot) u Nigga```")
             return
         await catevent.delete()
-        await event.client.send_message(
-            event.chat_id, response.message, reply_to=previous_message
-        )
+        await event.client.send_read_acknowledge(conv.chat_id)
+        await catevent.edit(response.message)
