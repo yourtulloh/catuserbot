@@ -153,7 +153,7 @@ async def _(event):
         result = "<b>"
         if pastebins[response["bin"]] != pastetype:
             result += f"{get_key(pastetype)} is down, So "
-        result += f"Pasted to: <a href={response['url']}>{response['bin']}</a>**"
+        result += f"Pasted to: <a href={response['url']}>{response['bin']}</a>"
         if response["raw"] != "":
             result += f"\nRaw link: <a href={response['raw']}>Raw</a></b>"
         await catevent.edit(result, link_preview=False, parse_mode="html")
