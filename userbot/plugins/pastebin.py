@@ -21,6 +21,17 @@ plugin_category = "utils"
 
 LOGS = logging.getLogger(__name__)
 
+pastebins = {
+    "Pasty" : "p",
+    "Neko" : "n",
+    "Spacebin": "s",
+    "Dog" : "d",
+    }
+
+def get_key(val):
+    for key, value in pastebins.items():
+        if val == value:
+            return key
 
 @catub.cat_cmd(
     pattern="pcode(?: |$)(.*)",
@@ -46,13 +57,14 @@ async def _(event):
             d_file_name = await event.client.download_media(reply, Config.TEMP_DIR)
             with open(d_file_name, "r") as f:
                 text_to_print = f.read()
-    if text_to_print == "" and reply.text:
-        text_to_print = reply.raw_text
-    else:
-        return await edit_delete(
-            catevent,
-            "`Either reply to text/code file or reply to text message or give text along with command`",
-        )
+    if text_to_print == "":
+        if reply.text:
+            text_to_print = reply.raw_text
+        else:
+            return await edit_delete(
+                catevent,
+                "`Either reply to text/code file or reply to text message or give text along with command`",
+            )
     pygments.highlight(
         text_to_print,
         Python3Lexer(),
@@ -116,13 +128,14 @@ async def _(event):
             d_file_name = await event.client.download_media(reply, Config.TEMP_DIR)
             with open(d_file_name, "r") as f:
                 text_to_print = f.read()
-    if text_to_print == "" and reply.text:
-        text_to_print = reply.raw_text
-    else:
-        return await edit_delete(
-            catevent,
-            "`Either reply to text/code file or reply to text message or give text along with command`",
-        )
+    if text_to_print == "":
+        if reply.text:
+            text_to_print = reply.raw_text
+        else:
+            return await edit_delete(
+                catevent,
+                "`Either reply to text/code file or reply to text message or give text along with command`",
+            )
     try:
         response = await pastetext(text_to_print, pastetype, extension)
         if "error" in response:
@@ -130,7 +143,10 @@ async def _(event):
                 catevent,
                 f"**Error while pasting text:**\n`Unable to process your request may be pastebins are down.`",
             )
-        result = f"**Pasted text to **[{response['bin']}]({response['url']})"
+        result = ""
+        if pastebins[response["bin"]] != pastetype:
+            result += f"**{get_key(pastetype)} is down **"
+        result += f"**Pasted text to **[{response['bin']}]({response['url']})"
         if response["raw"] != "":
             result += f"\n**Raw link: **[Raw]({response['raw']})"
         await catevent.edit(result, link_preview=False)
