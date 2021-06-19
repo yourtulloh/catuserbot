@@ -294,4 +294,4 @@ async def _(event):
                 "```Please unblock me (@chotamreaderbot) u Nigga```"
             )
         await event.client.send_read_acknowledge(conv.chat_id)
-        await catevent.edit(response.message)
+        await catevent.edit(response.text)
