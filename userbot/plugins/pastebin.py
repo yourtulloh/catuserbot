@@ -92,7 +92,7 @@ async def paste_img(event):
         if d_file_name is not None:
             os.remove(d_file_name)
     except Exception as e:
-        await edit_delete(catevent, f"**Error:**\n`{str(e)}`", time=10)
+        await edit_delete(catevent, f'**Error:**\n`{str(e)}`', time=10)
 
 
 @catub.cat_cmd(
@@ -271,15 +271,15 @@ async def _(event):
                 "`Either reply to text/code file or reply to text message or give text along with command`",
             )
     try:
-        response = await pastetext(text_to_print, pastetype, extension)
+        response = await pastetext(text_to_print, pastetype, extension="txt")
         if "error" in response:
             return await edit_delete(
                 catevent,
                 f"**Error while pasting text:**\n`Unable to process your request may be pastebins are down.`",
             )
     except Exception as e:
-        await edit_delete(catevent, f"**Error while pasting text:**\n`{str(e)}`")
-    url = response["url"]
+        return await edit_delete(catevent, f"**Error while pasting text:**\n`{str(e)}`")
+    url = response['url']
     chat = "@chotamreaderbot"
     # This module is modded by @ViperAdnan #KeepCredit
     await catevent.edit("`Making instant view...`")
@@ -291,8 +291,6 @@ async def _(event):
             await event.client.send_message(chat, url)
             response = await response
         except YouBlockedUserError:
-            await catevent.edit("```Please unblock me (@chotamreaderbot) u Nigga```")
-            return
-        await catevent.delete()
+            return await catevent.edit("```Please unblock me (@chotamreaderbot) u Nigga```")
         await event.client.send_read_acknowledge(conv.chat_id)
         await catevent.edit(response.message)
