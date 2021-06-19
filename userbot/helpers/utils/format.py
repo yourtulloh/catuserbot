@@ -10,7 +10,7 @@ from ..functions.utils import utc_to_local
 from .paste import pastetext
 
 
-async def paste_message(text, pasteytype="p", extension=None, markdown=True):
+async def paste_message(text, pastetype="p", extension=None, markdown=True):
     if markdown:
         asciich = ["**", "`", "__"]
         for i in asciich:

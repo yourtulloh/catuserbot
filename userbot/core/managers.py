@@ -2,6 +2,7 @@ import asyncio
 import os
 import re
 
+from ..helpers.utils.format import paste_message
 from .data import _sudousers_list
 
 
