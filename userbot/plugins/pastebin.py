@@ -8,7 +8,7 @@ from pygments.lexers import Python3Lexer
 from requests import exceptions, get
 from telethon import events
 from telethon.errors.rpcerrorlist import YouBlockedUserError
-
+from telethon.utils import get_extension
 from userbot import catub
 
 from ..Config import Config
@@ -128,6 +128,8 @@ async def _(event):
         mediatype = media_type(reply)
         if mediatype == "Document":
             d_file_name = await event.client.download_media(reply, Config.TEMP_DIR)
+            if extension is None:
+                extension = get_extension(reply.document)
             with open(d_file_name, "r") as f:
                 text_to_print = f.read()
     if text_to_print == "":
