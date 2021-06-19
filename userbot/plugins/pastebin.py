@@ -156,7 +156,7 @@ async def _(event):
         result += f"Pasted to: <a href={response['url']}>{response['bin']}</a>**"
         if response["raw"] != "":
             result += f"\nRaw link: <a href={response['raw']}>Raw</a></b>"
-        await catevent.edit(result, link_preview=False,parse_mode="html")
+        await catevent.edit(result, link_preview=False, parse_mode="html")
     except Exception as e:
         await edit_delete(catevent, f"**Error while pasting text:**\n`{str(e)}`")
 
