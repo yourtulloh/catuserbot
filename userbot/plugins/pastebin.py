@@ -13,6 +13,7 @@ from userbot import catub
 extractor = URLExtract()
 from ..Config import Config
 from ..core.logger import logging
+from ..core.events import MessageEdited
 from ..core.managers import edit_delete, edit_or_reply
 from ..helpers.tools import media_type
 from ..helpers.utils import pastetext, reply_id
@@ -280,12 +281,11 @@ async def _(event):
         return await edit_delete(catevent, f"**Error while pasting text:**\n`{str(e)}`")
     url = response["url"]
     chat = "@CorsaBot"
-    # This module is modded by @ViperAdnan #KeepCredit
     await catevent.edit("`Making instant view...`")
     async with event.client.conversation(chat) as conv:
         try:
             response = conv.wait_event(
-                events.NewMessage(incoming=True, from_users=171977108)
+                MessageEdited(incoming=True, from_users=conv.chat_id), timeout=10
             )
             await event.client.send_message(chat, url)
             response = await response
@@ -293,9 +293,14 @@ async def _(event):
             return await catevent.edit(
                 "```Please unblock me (@CorsaBot) and try```"
             )
-        await event.client.send_read_acknowledge(conv.chat_id)
-        print(response.text)
-        urls = extractor.find_urls(response.text)
-        print(urls)
-        result = f"The instant preview is [here]({urls[0]})"
-        await catevent.edit(result,link_preview=True)
+        if response:
+            await event.client.send_read_acknowledge(conv.chat_id)
+            print(response.text)
+            urls = extractor.find_urls(response.text)
+            print(urls)
+            if urls
+            result = f"The instant preview is [here]({urls[0]})"
+       else:
+            result = f"I can't make it as instant view"
+       await catevent.edit(result,link_preview=True)
+        
