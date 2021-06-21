@@ -213,6 +213,6 @@ async def ai_reply(event):
                 language=AI_LANG,
             )
             await event.reply(response.message)
-       except Exception as e:
+        except Exception as e:
             LOGS.error(str(e))
             await event.reply(random.choice(tired_response))
