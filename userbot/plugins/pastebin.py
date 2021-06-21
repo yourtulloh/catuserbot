@@ -294,6 +294,8 @@ async def _(event):
                 "```Please unblock me (@CorsaBot) and try```"
             )
         await event.client.send_read_acknowledge(conv.chat_id)
+        print(response.text)
         urls = extractor.find_urls(response.text)
+        print(urls)
         result = f"The instant preview is [here]({urls[0]})"
         await catevent.edit(result,link_preview=True)
