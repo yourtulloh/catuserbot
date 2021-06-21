@@ -128,7 +128,7 @@ async def deploy_start(tgbot, message, heroku_app, refspec, remote):
         add_to_collectionlist("restart_update", [sandy.chat_id, sandy.id])
     except Exception as e:
         LOGS.error(e)
-    await remote.push(refspec="HEAD:refs/heads/master", force=True)
+    await  remote.push(refspec="HEAD:refs/heads/master", force=True)
     build_status = heroku_app.builds(order_by="created_at", sort="desc")[0]
     if build_status.status == "failed":
         return await edit_delete(
