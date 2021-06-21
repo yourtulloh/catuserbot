@@ -3,17 +3,17 @@ import os
 import sys
 from asyncio.exceptions import CancelledError
 
-import git
 import heroku3
 import urllib3
 from git import Repo
 from git.exc import GitCommandError, InvalidGitRepositoryError, NoSuchPathError
 
-from userbot import HEROKU_APP, UPSTREAM_REPO_URL, catub
+from userbot import UPSTREAM_REPO_URL, catub
 
 from ..Config import Config
 from ..core.logger import logging
 from ..core.managers import edit_delete, edit_or_reply
+from ..helpers.utils import _catutils
 from ..sql_helper.global_collection import (
     add_to_collectionlist,
     del_keyword_collectionlist,
@@ -113,8 +113,29 @@ async def update(event, repo, ups_rem, ac_br):
     await event.client.reload(sandy)
 
 
-async def deploy_start(tgbot, message, heroku_app, refspec, remote):
-    sandy = await message.edit(
+async def deploy(event, repo, ups_rem, ac_br, txt):
+    if HEROKU_API_KEY is None:
+        return await event.edit("`Please set up`  **HEROKU_API_KEY**  ` Var...`")
+    heroku = heroku3.from_key(HEROKU_API_KEY)
+    heroku_app = None
+    heroku_applications = heroku.apps()
+    if HEROKU_APP_NAME is None:
+        await event.edit(
+            "`Please set up the` **HEROKU_APP_NAME** `Var`"
+            " to be able to deploy your userbot...`"
+        )
+        repo.__del__()
+        return
+    for app in heroku_applications:
+        if app.name == HEROKU_APP_NAME:
+            heroku_app = app
+            break
+    if heroku_app is None:
+        await event.edit(
+            f"{txt}\n" "`Invalid Heroku credentials for deploying userbot dyno.`"
+        )
+        return repo.__del__()
+    sandy = await event.edit(
         "`Userbot dyno build in progress, please wait until the process finishes it usually takes 4 to 5 minutes .`"
     )
     try:
@@ -128,18 +149,30 @@ async def deploy_start(tgbot, message, heroku_app, refspec, remote):
         add_to_collectionlist("restart_update", [sandy.chat_id, sandy.id])
     except Exception as e:
         LOGS.error(e)
-    remote.push(refspec="HEAD:refs/heads/master", force=True)
+    ups_rem.fetch(ac_br)
+    repo.git.reset("--hard", "FETCH_HEAD")
+    heroku_git_url = heroku_app.git_url.replace(
+        "https://", "https://api:" + HEROKU_API_KEY + "@"
+    )
+    if "heroku" in repo.remotes:
+        remote = repo.remote("heroku")
+        remote.set_url(heroku_git_url)
+    else:
+        remote = repo.create_remote("heroku", heroku_git_url)
+    try:
+        remote.push(refspec="HEAD:refs/heads/master", force=True)
+    except Exception as error:
+        await event.edit(f"{txt}\n`Here is the error log:\n{error}`")
+        return repo.__del__()
     build_status = heroku_app.builds(order_by="created_at", sort="desc")[0]
     if build_status.status == "failed":
-        return await edit_delete(
-            message, "`Build failed!\n" "Cancelled or there were some errors...`"
-        )
-    await message.edit("`Deploy was failed. So restarting to update`")
+        await event.edit("`Build failed!\n" "Cancelled or there were some errors...`")
+        await asyncio.sleep(5)
+        return await event.delete()
+    await event.edit("`Deploy was failed. So restarting to update`")
     delgvar("ipaddress")
     try:
-        await tgbot.disconnect()
-        if HEROKU_APP is not None:
-            HEROKU_APP.restart()
+        await event.client.disconnect()
     except CancelledError:
         pass
 
@@ -160,7 +193,6 @@ async def deploy_start(tgbot, message, heroku_app, refspec, remote):
             "{tr}update deploy",
         ],
     },
-    disable_errors=True,
 )
 async def upstream(event):
     "To check if the bot is up to date and update if specified"
@@ -240,63 +272,38 @@ async def upstream(event):
 
 @catub.cat_cmd(
     pattern="update deploy$",
-    disable_errors=True,
 )
 async def upstream(event):
-    catevent = await edit_or_reply(event, "`Pulling the catpack repo wait a sec ....`")
-    OFFICIAL_UPSTREAM_REPO = "https://github.com/Mr-confused/catpack"
+    event = await edit_or_reply(event, "`Pulling the catpack repo wait a sec ....`")
+    off_repo = "https://github.com/Mr-confused/catpack"
     os.chdir("/app")
-    maindir = f"{os.path.basename(UPSTREAM_REPO_URL)}-{Config.UPSTREAM_REPO_BRANCH}"
-    if os.path.exists(maindir):
-        await _catutils.runcmd(f"rm -rf {maindir}")
-        LOGS.info("Main Directory is cleared")
+    await _catutils.runcmd(f"rm -rf .git")
     try:
-        repo = git.Repo()
-    except git.exc.InvalidGitRepositoryError as e:
-        repo = git.Repo.init()
-        origin = repo.create_remote(REPO_REMOTE_NAME, OFFICIAL_UPSTREAM_REPO)
+        txt = "`Oops.. Updater cannot continue due to "
+        txt += "some problems occured`\n\n**LOGTRACE:**\n"
+        repo = Repo()
+    except NoSuchPathError as error:
+        await event.edit(f"{txt}\n`directory {error} is not found`")
+        return repo.__del__()
+    except GitCommandError as error:
+        await event.edit(f"{txt}\n`Early failure! {error}`")
+        return repo.__del__()
+    except InvalidGitRepositoryError:
+        repo = Repo.init()
+        origin = repo.create_remote("upstream", off_repo)
         origin.fetch()
-        repo.create_head(IFFUCI_ACTIVE_BRANCH_NAME, origin.refs.master)
+        repo.create_head("master", origin.refs.master)
+        repo.heads.master.set_tracking_branch(origin.refs.master)
         repo.heads.master.checkout(True)
-    active_branch_name = repo.active_branch.name
     try:
-        repo.create_remote(REPO_REMOTE_NAME, OFFICIAL_UPSTREAM_REPO)
-    except Exception as e:
-        print(e)
-    temp_upstream_remote = repo.remote(REPO_REMOTE_NAME)
-    temp_upstream_remote.fetch(active_branch_name)
-    repo.git.reset("--hard", "FETCH_HEAD")
-    if Config.HEROKU_API_KEY is not None:
-        heroku = heroku3.from_key(Config.HEROKU_API_KEY)
-        heroku_applications = heroku.apps()
-        if Config.HEROKU_APP_NAME is not None:
-            heroku_app = None
-            for i in heroku_applications:
-                if i.name == Config.HEROKU_APP_NAME:
-                    heroku_app = i
-            if heroku_app is None:
-                await catevent.edit(
-                    "Invalid APP Name. Please set the correct app name of your bot in heroku in the var `HEROKU_APP_NAME.`"
-                )
-                return
-            heroku_git_url = heroku_app.git_url.replace(
-                "https://", "https://api:" + Config.HEROKU_API_KEY + "@"
-            )
-            if "heroku" in repo.remotes:
-                remote = repo.remote("heroku")
-                remote.set_url(heroku_git_url)
-            else:
-                remote = repo.create_remote("heroku", heroku_git_url)
-            asyncio.get_event_loop().create_task(
-                deploy_start(catub, catevent, heroku_app, HEROKU_GIT_REF_SPEC, remote)
-            )
-        else:
-            await catevent.edit(
-                "Please create the var `HEROKU_APP_NAME` in the heroku as the key and the name of your bot in heroku as your value."
-            )
-            return
-    else:
-        await catevent.edit("No heroku api key found in `HEROKU_API_KEY` var")
+        repo.create_remote("upstream", off_repo)
+    except BaseException:
+        pass
+    ac_br = repo.active_branch.name
+    ups_rem = repo.remote("upstream")
+    ups_rem.fetch(ac_br)
+    await event.edit("`Deploying userbot, please wait....`")
+    await deploy(event, repo, ups_rem, ac_br, txt)
 
 
 @catub.cat_cmd(
