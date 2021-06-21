@@ -1,5 +1,7 @@
-from telethon.utils import get_display_name
 import random
+
+from telethon.utils import get_display_name
+
 from userbot import catub
 
 from ..core.managers import edit_delete, edit_or_reply
@@ -18,14 +20,15 @@ from ..sql_helper.globals import gvarstatus
 plugin_category = "fun"
 
 tired_response = [
-    'I am little tired, Please give me some rest',
-    'Who are you to ask me questions Continuously',
-    'Leave me alone for some times',
-    'Time to Sleep, I will get back to you soon',
-    'I have a job to do, Come back later',
-    'I need to rest, leave me alone for some times',
-    'I am not feeling well, Please Come back later'
+    "I am little tired, Please give me some rest",
+    "Who are you to ask me questions Continuously",
+    "Leave me alone for some times",
+    "Time to Sleep, I will get back to you soon",
+    "I have a job to do, Come back later",
+    "I need to rest, leave me alone for some times",
+    "I am not feeling well, Please Come back later",
 ]
+
 
 @catub.cat_cmd(
     pattern="addai$",

@@ -1,19 +1,20 @@
 import os
 import re
-from urlextract import URLExtract
+
 import pygments
 import requests
 from pygments.formatters import ImageFormatter
 from pygments.lexers import Python3Lexer
-from telethon import events
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.utils import get_extension
+from urlextract import URLExtract
 
 from userbot import catub
+
 extractor = URLExtract()
 from ..Config import Config
-from ..core.logger import logging
 from ..core.events import MessageEdited
+from ..core.logger import logging
 from ..core.managers import edit_delete, edit_or_reply
 from ..helpers.tools import media_type
 from ..helpers.utils import pastetext, reply_id
@@ -290,9 +291,7 @@ async def _(event):
             await event.client.send_message(chat, url)
             response = await response
         except YouBlockedUserError:
-            return await catevent.edit(
-                "```Please unblock me (@CorsaBot) and try```"
-            )
+            return await catevent.edit("```Please unblock me (@CorsaBot) and try```")
         result = ""
         if response:
             await event.client.send_read_acknowledge(conv.chat_id)
@@ -301,4 +300,4 @@ async def _(event):
                 result = f"The instant preview is [here]({urls[0]})"
         if result == "":
             result = f"I can't make it as instant view"
-        await catevent.edit(result,link_preview=True)
+        await catevent.edit(result, link_preview=True)
