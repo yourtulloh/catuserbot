@@ -214,30 +214,31 @@ async def character(event):
 
 
 @catub.cat_cmd(
-    pattern="a(kaizoku|kayo)(?: |$)([\S\s]*)",
+    pattern="a(kaizoku|kayo|indi)(?: |$)([\S\s]*)",
     command=("akaizoku", plugin_category),
     info={
         "header": "Shows you anime download link.",
         "usage": [
             "{tr}akaizoku <anime name>",
             "{tr}akayo <anime name>",
+            "{tr}aindi <anime name>",
         ],
         "examples": [
             "{tr}akaizoku one piece",
             "{tr}akayo tokyo revengers",
+            "{tr}aindi Spirited Away",
         ],
     },
 )
-async def anime_doqnload(event):
+async def anime_download(event):  # sourcery no-metrics
     "Anime download links."
     search_query = event.pattern_match.group(2)
     input_str = event.pattern_match.group(1)
     reply = await event.get_reply_message()
-    if not search_query:
-        if reply:
-            search_query = reply.text
-        else:
-            return await edit_delete(
+    if not search_query and reply:
+        search_query = reply.text
+    else:
+        return await edit_delete(
                 event, "__What should i search ? Gib me Something to Search__"
             )
     catevent = await edit_or_reply(event, "`Searching anime...`")
@@ -247,7 +248,6 @@ async def anime_doqnload(event):
         html_text = requests.get(search_url).text
         soup = bs4.BeautifulSoup(html_text, "html.parser")
         search_result = soup.find_all("h2", {"class": "post-title"})
-
         if search_result:
             result = f"<a href={search_url}>Click Here For More Results</a> <b>of</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>AnimeKaizoku</code>: \n\n"
             for entry in search_result:
@@ -265,6 +265,19 @@ async def anime_doqnload(event):
         for entry in search_result:
             if entry.text.strip() == "Nothing Found":
                 result = f"<b>No result found for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>AnimeKayo</code>"
+                break
+            post_link = entry.a["href"]
+            post_name = html.escape(entry.text.strip())
+            result += f"• <a href={post_link}>{post_name}</a>\n"
+    elif input_str == "indi":
+        search_url = f"https://indianime.com/?s={search_query}"
+        html_text = requests.get(search_url).text
+        soup = bs4.BeautifulSoup(html_text, "html.parser")
+        search_result = soup.find_all("h1", {"class": "elementor-post__title"})
+        result = f"<a href={search_url}>Click Here For More Results</a> <b>of</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>indianime</code>: \n\n"
+        for entry in search_result:
+            if entry.text.strip() == "Nothing Found":
+                result = f"<b>No result found for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>Indianime</code>.\n<b>You can request anime <a href='https://indianime.com/request-anime'>here</a></b>"
                 break
             post_link = entry.a["href"]
             post_name = html.escape(entry.text.strip())
