@@ -296,9 +296,7 @@ async def _(event):
         result = ""
         if response:
             await event.client.send_read_acknowledge(conv.chat_id)
-            print(response.text)
             urls = extractor.find_urls(response.text)
-            print(urls)
             if urls:
                 result = f"The instant preview is [here]({urls[0]})"
         if result == "":
