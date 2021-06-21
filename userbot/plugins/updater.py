@@ -279,7 +279,10 @@ async def upstream(event):
     event = await edit_or_reply(event, "`Pulling the catpack repo wait a sec ....`")
     off_repo = "https://github.com/Mr-confused/catpack"
     os.chdir("/app")
-    await _catutils.runcmd(f"rm -rf .git")
+    maindir = f"{os.path.basename(UPSTREAM_REPO_URL)}-{Config.UPSTREAM_REPO_BRANCH}"
+    if os.path.exists(maindir):
+        os.remove(maindir)
+        LOGS.info("Main Directory is cleared")
     try:
         txt = "`Oops.. Updater cannot continue due to "
         txt += "some problems occured`\n\n**LOGTRACE:**\n"
