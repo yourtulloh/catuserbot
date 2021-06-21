@@ -284,11 +284,11 @@ async def upstream(event):
     event = await edit_or_reply(event, "`Pulling the catpack repo wait a sec ....`")
     off_repo = "https://github.com/Mr-confused/catpack"
     os.chdir("/app")
-    await _catutils.runcmd(f"rm -rf .git")
     try:
         txt = "`Oops.. Updater cannot continue due to "
         txt += "some problems occured`\n\n**LOGTRACE:**\n"
         repo = Repo()
+        print(1)
     except NoSuchPathError as error:
         await event.edit(f"{txt}\n`directory {error} is not found`")
         return repo.__del__()
