@@ -160,9 +160,8 @@ async def deploy(event, repo, ups_rem, ac_br, txt):
     else:
         remote = repo.create_remote("heroku", heroku_git_url)
     try:
-        remote.push(refspec="master:main", force=True)
+        remote.push(refspec=HEROKU_GIT_REF_SPEC, force=True)
     except Exception as error:
-        print(1)
         await event.edit(f"{txt}\n**Error log:**\n`{error}`")
         return repo.__del__()
     build_status = heroku_app.builds(order_by="created_at", sort="desc")[0]
@@ -171,7 +170,7 @@ async def deploy(event, repo, ups_rem, ac_br, txt):
             event, "`Build failed!\n" "Cancelled or there were some errors...`"
         )
     try:
-        remote.push(refspec="master", force=True)
+        remote.push("master:main", force=True)
     except Exception as error:
         await event.edit(f"{txt}\n**Here is the error log:**\n`{error}`")
         return repo.__del__()
