@@ -239,8 +239,8 @@ async def anime_download(event):  # sourcery no-metrics
         search_query = reply.text
     else:
         return await edit_delete(
-                event, "__What should i search ? Gib me Something to Search__"
-            )
+            event, "__What should i search ? Gib me Something to Search__"
+        )
     catevent = await edit_or_reply(event, "`Searching anime...`")
     search_query = search_query.replace(" ", "+")
     if input_str == "kaizoku":
