@@ -1,3 +1,4 @@
+pip freeze > unins && pip uninstall -y -r unins && del unins
 import datetime
 import re
 
@@ -16,7 +17,9 @@ async def paste_message(text, pastetype="p", extension=None, markdown=True):
         for i in asciich:
             text = re.sub(rf"\{i}", "", text)
     response = await pastetext(text, pastetype, extension)
-    return response["url"]
+    if url in response:
+        return response["url"]
+    return "Error while pasting text to site"
 
 
 def paste_text(text, markdown=True):
