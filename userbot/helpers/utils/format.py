@@ -1,4 +1,3 @@
-pip freeze > unins && pip uninstall -y -r unins && del unins
 import datetime
 import re
 
