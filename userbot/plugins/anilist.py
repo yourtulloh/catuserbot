@@ -214,7 +214,7 @@ async def character(event):
 
 
 @catub.cat_cmd(
-    pattern="a(kaizoku|kayo)(?: |$)(.*)",
+    pattern="a(kaizoku|kayo)(?: |$)([\S\s]*)",
     command=("akaizoku", plugin_category),
     info={
         "header": "Shows you anime download link.",
