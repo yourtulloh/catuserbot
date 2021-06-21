@@ -301,7 +301,6 @@ async def _(event):
             print(urls)
             if urls:
                 result = f"The instant preview is [here]({urls[0]})"
-       if result == "":
+        if result == "":
             result = f"I can't make it as instant view"
-       await catevent.edit(result,link_preview=True)
-        
+        await catevent.edit(result,link_preview=True)
