@@ -280,7 +280,7 @@ async def upstream(event):
     os.chdir("/app")
     maindir = f"{os.path.basename(UPSTREAM_REPO_URL)}-{Config.UPSTREAM_REPO_BRANCH}"
     if os.path.exists(maindir):
-        os.remove(maindir)
+        await _catutils.runcmd(f"rm -rf {maindir}")
         LOGS.info("Main Directory is cleared")
     try:
         txt = "`Oops.. Updater cannot continue due to "
