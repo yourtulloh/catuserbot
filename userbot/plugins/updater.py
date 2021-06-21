@@ -169,10 +169,10 @@ async def deploy(event, repo, ups_rem, ac_br, txt):
             event, "`Build failed!\n" "Cancelled or there were some errors...`"
         )
     try:
-            remote.push("master:main", force=True)
+        remote.push("master:main", force=True)
     except Exception as error:
-            await event.edit(f"{txt}\n**Here is the error log:**\n`{error}`")
-            return repo.__del__()
+        await event.edit(f"{txt}\n**Here is the error log:**\n`{error}`")
+        return repo.__del__()
     await event.edit("`Deploy was failed. So restarting to update`")
     delgvar("ipaddress")
     try:
