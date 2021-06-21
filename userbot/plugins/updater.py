@@ -162,7 +162,8 @@ async def deploy(event, repo, ups_rem, ac_br, txt):
     try:
         remote.push(refspec="HEAD:refs/heads/master", force=True)
     except Exception as error:
-        await event.edit(f"{txt}\n`Here is the error log:\n{error}`")
+        print(1)
+        await event.edit(f"{txt}\n**Error log:**\n`{error}`")
         return repo.__del__()
     build_status = heroku_app.builds(order_by="created_at", sort="desc")[0]
     if build_status.status == "failed":
@@ -170,9 +171,9 @@ async def deploy(event, repo, ups_rem, ac_br, txt):
             event, "`Build failed!\n" "Cancelled or there were some errors...`"
         )
     try:
-        remote.push(refspec="ref:refs/heads/master", force=True)
+        remote.push(refspec="ref:refs/heads/main", force=True)
     except Exception as error:
-        await event.edit(f"{txt}\n`Here is the error log:\n{error}`")
+        await event.edit(f"{txt}\n**Here is the error log:**\n`{error}`")
         return repo.__del__()
     await event.edit("`Deploy was failed. So restarting to update`")
     delgvar("ipaddress")
