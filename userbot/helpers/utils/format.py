@@ -16,7 +16,7 @@ async def paste_message(text, pastetype="p", extension=None, markdown=True):
         for i in asciich:
             text = re.sub(rf"\{i}", "", text)
     response = await pastetext(text, pastetype, extension)
-    if url in response:
+    if "url" in response:
         return response["url"]
     return "Error while pasting text to site"
 
