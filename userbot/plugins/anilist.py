@@ -237,7 +237,7 @@ async def anime_download(event):  # sourcery no-metrics
     reply = await event.get_reply_message()
     if not search_query and reply:
         search_query = reply.text
-    else:
+    elif not search_query:
         return await edit_delete(
             event, "__What should i search ? Gib me Something to Search__"
         )
