@@ -3,9 +3,9 @@ import os
 import sys
 from asyncio.exceptions import CancelledError
 
+import git
 import heroku3
 import urllib3
-import git
 from git import Repo
 from git.exc import GitCommandError, InvalidGitRepositoryError, NoSuchPathError
 
@@ -112,8 +112,11 @@ async def update(event, repo, ups_rem, ac_br):
     )
     await event.client.reload(sandy)
 
-async def deploy_start(tgbot, message,heroku_app, refspec, remote):
-    sandy = await message.edit("`Userbot dyno build in progress, please wait until the process finishes it usually takes 4 to 5 minutes .`")
+
+async def deploy_start(tgbot, message, heroku_app, refspec, remote):
+    sandy = await message.edit(
+        "`Userbot dyno build in progress, please wait until the process finishes it usually takes 4 to 5 minutes .`"
+    )
     try:
         ulist = get_collectionlist_items()
         for i in ulist:
@@ -128,7 +131,9 @@ async def deploy_start(tgbot, message,heroku_app, refspec, remote):
     await remote.push(refspec=refspec)
     build_status = heroku_app.builds(order_by="created_at", sort="desc")[0]
     if build_status.status == "failed":
-        return await edit_delete(event,"`Build failed!\n" "Cancelled or there were some errors...`")
+        return await edit_delete(
+            event, "`Build failed!\n" "Cancelled or there were some errors...`"
+        )
     await event.edit("`Deploy was failed. So restarting to update`")
     delgvar("ipaddress")
     try:
@@ -137,6 +142,7 @@ async def deploy_start(tgbot, message,heroku_app, refspec, remote):
             HEROKU_APP.restart()
     except CancelledError:
         pass
+
 
 @catub.cat_cmd(
     pattern="update(| now)?$",
@@ -231,6 +237,7 @@ async def upstream(event):
         await update(event, repo, ups_rem, ac_br)
     return
 
+
 @catub.cat_cmd(
     pattern="update deploy$",
     disable_errors=True,
@@ -263,28 +270,34 @@ async def upstream(event):
         heroku = heroku3.from_key(Config.HEROKU_API_KEY)
         heroku_applications = heroku.apps()
         if Config.HEROKU_APP_NAME is not None:
-                heroku_app = None
-                for i in heroku_applications:
-                    if i.name == Config.HEROKU_APP_NAME:
-                        heroku_app = i
-                if heroku_app is None:
-                    await catevent.edit("Invalid APP Name. Please set the correct app name of your bot in heroku in the var `HEROKU_APP_NAME.`")
-                    return
-                heroku_git_url = heroku_app.git_url.replace(
-                    "https://",
-                    "https://api:" + Config.HEROKU_API_KEY + "@"
+            heroku_app = None
+            for i in heroku_applications:
+                if i.name == Config.HEROKU_APP_NAME:
+                    heroku_app = i
+            if heroku_app is None:
+                await catevent.edit(
+                    "Invalid APP Name. Please set the correct app name of your bot in heroku in the var `HEROKU_APP_NAME.`"
                 )
-                if "heroku" in repo.remotes:
-                    remote = repo.remote("heroku")
-                    remote.set_url(heroku_git_url)
-                else:
-                    remote = repo.create_remote("heroku", heroku_git_url)
-                asyncio.get_event_loop().create_task(deploy_start(catub, catevent,heroku_app, HEROKU_GIT_REF_SPEC, remote))
-        else:
-                await catevent.edit("Please create the var `HEROKU_APP_NAME` in the heroku as the key and the name of your bot in heroku as your value.")
                 return
+            heroku_git_url = heroku_app.git_url.replace(
+                "https://", "https://api:" + Config.HEROKU_API_KEY + "@"
+            )
+            if "heroku" in repo.remotes:
+                remote = repo.remote("heroku")
+                remote.set_url(heroku_git_url)
+            else:
+                remote = repo.create_remote("heroku", heroku_git_url)
+            asyncio.get_event_loop().create_task(
+                deploy_start(catub, catevent, heroku_app, HEROKU_GIT_REF_SPEC, remote)
+            )
+        else:
+            await catevent.edit(
+                "Please create the var `HEROKU_APP_NAME` in the heroku as the key and the name of your bot in heroku as your value."
+            )
+            return
     else:
         await catevent.edit("No heroku api key found in `HEROKU_API_KEY` var")
+
 
 @catub.cat_cmd(
     pattern="badcat$",
