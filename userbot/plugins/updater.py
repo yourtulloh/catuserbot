@@ -287,9 +287,7 @@ async def upstream(event):
                 remote.set_url(heroku_git_url)
             else:
                 remote = repo.create_remote("heroku", heroku_git_url)
-            asyncio.get_event_loop().create_task(
-                deploy_start(catub, catevent, heroku_app, HEROKU_GIT_REF_SPEC, remote)
-            )
+            await deploy_start(catub, catevent, heroku_app, HEROKU_GIT_REF_SPEC, remote)
         else:
             await catevent.edit(
                 "Please create the var `HEROKU_APP_NAME` in the heroku as the key and the name of your bot in heroku as your value."
