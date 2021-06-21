@@ -159,7 +159,7 @@ async def deploy(event, repo, ups_rem, ac_br, txt):
     else:
         remote = repo.create_remote("heroku", heroku_git_url)
     try:
-        remote.push(refspec=HEROKU_GIT_REF_SPEC, force=True)
+        remote.push(refspec="HEAD:refs/heads/master", force=True)
     except Exception as error:
         await event.edit(f"{txt}\n**Error log:**\n`{error}`")
         return repo.__del__()
@@ -168,11 +168,11 @@ async def deploy(event, repo, ups_rem, ac_br, txt):
         return await edit_Delete(
             event, "`Build failed!\n" "Cancelled or there were some errors...`"
         )
-    try:
-        remote.push("master:main", force=True)
-    except Exception as error:
-        await event.edit(f"{txt}\n**Here is the error log:**\n`{error}`")
-        return repo.__del__()
+#     try:
+#         remote.push("master:main", force=True)
+#     except Exception as error:
+#         await event.edit(f"{txt}\n**Here is the error log:**\n`{error}`")
+#         return repo.__del__()
     await event.edit("`Deploy was failed. So restarting to update`")
     delgvar("ipaddress")
     try:
