@@ -8,7 +8,7 @@ import urllib3
 from git import Repo
 from git.exc import GitCommandError, InvalidGitRepositoryError, NoSuchPathError
 
-from userbot import UPSTREAM_REPO_URL, catub
+from userbot import UPSTREAM_REPO_URL, catub,HEROKU_APP
 
 from ..Config import Config
 from ..core.logger import logging
@@ -165,13 +165,13 @@ async def deploy(event, repo, ups_rem, ac_br, txt):
         return repo.__del__()
     build_status = heroku_app.builds(order_by="created_at", sort="desc")[0]
     if build_status.status == "failed":
-        await event.edit("`Build failed!\n" "Cancelled or there were some errors...`")
-        await asyncio.sleep(5)
-        return await event.delete()
+        return await edit_delete(event,"`Build failed!\n" "Cancelled or there were some errors...`")
     await event.edit("`Deploy was failed. So restarting to update`")
     delgvar("ipaddress")
     try:
         await event.client.disconnect()
+        if HEROKU_APP is not None:
+            HEROKU_APP.restart()
     except CancelledError:
         pass
 
