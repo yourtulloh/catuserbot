@@ -1,6 +1,6 @@
 import os
 import re
-
+from urlextract import URLExtract
 import pygments
 import requests
 from pygments.formatters import ImageFormatter
@@ -10,7 +10,7 @@ from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.utils import get_extension
 
 from userbot import catub
-
+extractor = URLExtract()
 from ..Config import Config
 from ..core.logger import logging
 from ..core.managers import edit_delete, edit_or_reply
@@ -279,19 +279,21 @@ async def _(event):
     except Exception as e:
         return await edit_delete(catevent, f"**Error while pasting text:**\n`{str(e)}`")
     url = response["url"]
-    chat = "@chotamreaderbot"
+    chat = "@CorsaBot"
     # This module is modded by @ViperAdnan #KeepCredit
     await catevent.edit("`Making instant view...`")
     async with event.client.conversation(chat) as conv:
         try:
             response = conv.wait_event(
-                events.NewMessage(incoming=True, from_users=272572121)
+                events.NewMessage(incoming=True, from_users=171977108)
             )
             await event.client.send_message(chat, url)
             response = await response
         except YouBlockedUserError:
             return await catevent.edit(
-                "```Please unblock me (@chotamreaderbot) u Nigga```"
+                "```Please unblock me (@CorsaBot) and try```"
             )
         await event.client.send_read_acknowledge(conv.chat_id)
-        await catevent.edit(response.text)
+        urls = extractor.find_urls(response.text)
+        result = f"The instant preview is [here]({urls[0]})"
+        await catevent.edit(result,link_preview=True)
