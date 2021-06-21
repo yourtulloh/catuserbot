@@ -233,14 +233,15 @@ async def anime_doqnload(event):
     search_query = event.pattern_match.group(2)
     input_str = event.pattern_match.group(1)
     reply = await event.get_reply_message()
-    if not input_str:
+    if not search_query:
         if reply:
-            input_str = reply.text
+            search_query = reply.text
         else:
             return await edit_delete(
                 event, "__What should i search ? Gib me Something to Search__"
             )
     catevent = await edit_or_reply(event, "`Searching anime...`")
+    search_query = search_query.replace(" ","+")
     if input_str == "kaizoku":
         search_url = f"https://animekaizoku.com/?s={search_query}"
         html_text = requests.get(search_url).text
