@@ -170,7 +170,7 @@ async def deploy(event, repo, ups_rem, ac_br, txt):
             event, "`Build failed!\n" "Cancelled or there were some errors...`"
         )
     try:
-        remote.push(refspec="ref: refs/heads/master", force=True)
+        remote.push(refspec="ref:refs/heads/master", force=True)
     except Exception as error:
         await event.edit(f"{txt}\n`Here is the error log:\n{error}`")
         return repo.__del__()
