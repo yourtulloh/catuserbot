@@ -2,14 +2,14 @@ import datetime
 import re
 
 import requests
+from bs4 import BeautifulSoup
+from markdown import markdown
 from telethon.tl.tlobject import TLObject
 from telethon.tl.types import MessageEntityPre
 from telethon.utils import add_surrogate
 
 from ..functions.utils import utc_to_local
 from .paste import pastetext
-from bs4 import BeautifulSoup
-from markdown import markdown
 
 
 async def paste_message(text, pastetype="p", extension=None, markdown=True):
@@ -43,10 +43,12 @@ def paste_text(text, markdown=True):
             link = f"https://del.dog/v/{r['key']}"
     return link
 
+
 def md_to_text(md):
     html = markdown(md)
-    soup = BeautifulSoup(html, features='html.parser')
+    soup = BeautifulSoup(html, features="html.parser")
     return soup.get_text()
+
 
 def mentionuser(name, userid):
     return f"[{name}](tg://user?id={userid})"
