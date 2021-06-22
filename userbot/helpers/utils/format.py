@@ -15,6 +15,7 @@ async def paste_message(text, pastetype="p", extension=None, markdown=True):
         asciich = ["**", "`", "__"]
         for i in asciich:
             text = re.sub(rf"\{i}", "", text)
+    print(text)
     response = await pastetext(text, pastetype, extension)
     if "url" in response:
         return response["url"]
