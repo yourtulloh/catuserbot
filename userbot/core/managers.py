@@ -38,7 +38,7 @@ async def edit_or_reply(
     if not noformat:
         asciich = ["**", "`", "__"]
         for i in asciich:
-            text = re.sub(rf"\{i}", "", text)
+            text = text.replace(i,"")
     if aslink or deflink:
         linktext = linktext or "Message was to big so pasted to bin"
         response = await paste_message(text)
