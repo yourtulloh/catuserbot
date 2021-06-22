@@ -8,14 +8,13 @@ from telethon.utils import add_surrogate
 
 from ..functions.utils import utc_to_local
 from .paste import pastetext
+from bs4 import BeautifulSoup
+from markdown import markdown
 
 
 async def paste_message(text, pastetype="p", extension=None, markdown=True):
     if markdown:
-        asciich = ["**", "`", "__"]
-        for i in asciich:
-            text = re.sub(rf"\{i}", "", text)
-    print(text)
+        text = md_to_text(text)
     response = await pastetext(text, pastetype, extension)
     if "url" in response:
         return response["url"]
@@ -44,6 +43,10 @@ def paste_text(text, markdown=True):
             link = f"https://del.dog/v/{r['key']}"
     return link
 
+def md_to_text(md):
+    html = markdown(md)
+    soup = BeautifulSoup(html, features='html.parser')
+    return soup.get_text()
 
 def mentionuser(name, userid):
     return f"[{name}](tg://user?id={userid})"
