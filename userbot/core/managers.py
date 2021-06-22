@@ -1,8 +1,7 @@
 import asyncio
 import os
-import re
 
-from ..helpers.utils.format import paste_message, md_to_text
+from ..helpers.utils.format import md_to_text, paste_message
 from .data import _sudousers_list
 
 

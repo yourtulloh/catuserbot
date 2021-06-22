@@ -1,7 +1,5 @@
 import datetime
-import re
 
-import requests
 from bs4 import BeautifulSoup
 from markdown import markdown
 from telethon.tl.tlobject import TLObject
@@ -19,6 +17,7 @@ async def paste_message(text, pastetype="p", extension=None, markdown=True):
     if "url" in response:
         return response["url"]
     return "Error while pasting text to site"
+
 
 def md_to_text(md):
     html = markdown(md)
