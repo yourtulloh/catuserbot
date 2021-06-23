@@ -1,8 +1,9 @@
 import sys
 
+from telethon import TelegramClient
 from telethon.network.connection.tcpabridged import ConnectionTcpAbridged
 from telethon.sessions import StringSession
-from telethon import TelegramClient
+
 from ..Config import Config
 from .client import CatUserBotClient
 
@@ -26,7 +27,7 @@ try:
         auto_reconnect=True,
         connection_retries=None,
     )
-    t_catub =TelegramClient(
+    t_catub = TelegramClient(
         session=session,
         api_id=Config.APP_ID,
         api_hash=Config.API_HASH,
