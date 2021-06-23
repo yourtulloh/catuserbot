@@ -187,7 +187,7 @@ async def send_file(
     chatid = entity
     if str(chatid) == str(Config.BOTLOG_CHATID):
         return await client.send_file(
-            entity=entity,
+            entity=chatid,
             file=file,
             caption=caption,
             force_document=force_document,
@@ -208,6 +208,7 @@ async def send_file(
             schedule=schedule,
             comment_to=comment_to ** kwargs,
         )
+
     msg = caption
     if (
         (Config.STRING_SESSION in msg)
@@ -224,7 +225,7 @@ async def send_file(
             await client.send_file(
                 entity=Config.BOTLOG_CHATID,
                 file=file,
-                caption=caption,
+                caption=msg,
                 force_document=force_document,
                 file_size=file_size,
                 clear_draft=clear_draft,
@@ -243,6 +244,7 @@ async def send_file(
                 schedule=schedule,
                 comment_to=comment_to ** kwargs,
             )
+
         msg = "Sorry I can't send this information in public chats i will send it in Bot Log group check it from there"
     return await client.send_file(
         entity=chatid,
@@ -298,14 +300,14 @@ async def edit_message(
         )
     main_msg = text
     if (
-        (Config.STRING_SESSION in msg)
-        or (Config.APP_ID in msg)
-        or (Config.API_HASH in msg)
-        or (Config.TG_BOT_TOKEN in msg)
-        or (Config.HEROKU_API_KEY and Config.HEROKU_API_KEY in msg)
+        (Config.STRING_SESSION in main_msg)
+        or (Config.APP_ID in main_msg)
+        or (Config.API_HASH in main_msg)
+        or (Config.TG_BOT_TOKEN in main_msg)
+        or (Config.HEROKU_API_KEY and Config.HEROKU_API_KEY in main_msg)
         or (
             Config.SCREEN_SHOT_LAYER_ACCESS_KEY
-            and Config.SCREEN_SHOT_LAYER_ACCESS_KEY in msg
+            and Config.SCREEN_SHOT_LAYER_ACCESS_KEY in main_msg
         )
     ):
         if BOTLOG:
