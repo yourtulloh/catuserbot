@@ -1,6 +1,5 @@
 import sys
 
-from telethon import TelegramClient
 from telethon.network.connection.tcpabridged import ConnectionTcpAbridged
 from telethon.sessions import StringSession
 
@@ -42,4 +41,3 @@ catub.tgbot = tgbot = CatUserBotClient(
     auto_reconnect=True,
     connection_retries=None,
 ).start(bot_token=Config.TG_BOT_TOKEN)
-
