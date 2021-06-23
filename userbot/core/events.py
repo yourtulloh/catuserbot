@@ -2,8 +2,9 @@ import typing
 
 from telethon import events, functions, hints, types
 
-from .managers import edit_or_reply
 from ..Config import Config
+from .managers import edit_or_reply
+
 
 @events.common.name_inner_event
 class NewMessage(events.NewMessage):
