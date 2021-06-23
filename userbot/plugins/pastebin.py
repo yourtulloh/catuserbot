@@ -224,27 +224,26 @@ async def get_dogbin_content(event):
     if rawurl is None:
         fid = os.path.splitext((os.path.basename(url)))
         if "pasty" in url:
-            rawurl = f"https://pasty.lus.pm/{fid}/raw"
+            rawurl = f"https://pasty.lus.pm/{fid[0]}/raw"
         elif "spaceb" in url:
-            rawurl = f"https://spaceb.in/api/v1/documents/{fid}/raw"
+            rawurl = f"https://spaceb.in/api/v1/documents/{fid[0]}/raw"
         elif "nekobin" in url:
-            rawurl = f"nekobin.com/raw/{fid}"
+            rawurl = f"nekobin.com/raw/{fid[0]}"
         elif "dog" in url:
-            rawurl = f"https://del.dog/raw/{fid}"
+            rawurl = f"https://del.dog/raw/{fid[0]}"
     resp = requests.get(rawurl)
     try:
         resp.raise_for_status()
     except requests.exceptions.HTTPError as HTTPErr:
         return await catevent.edit(
-            "Request returned an unsuccessful status code.\n\n" + str(HTTPErr)
+            f"**Request returned an unsuccessful status code.**\n\n__{str(HTTPErr)}__"
         )
     except requests.exceptions.Timeout as TimeoutErr:
-        return await catevent.edit("Request timed out." + str(TimeoutErr))
+        return await catevent.edit(f"**Request timed out.**__{str(TimeoutErr))}__")
     except requests.exceptions.TooManyRedirects as RedirectsErr:
         return await catevent.edit(
             (
-                "Request exceeded the configured number of maximum redirections."
-                + str(RedirectsErr)
+                f"**Request exceeded the configured number of maximum redirections.**__{str(RedirectsErr)}__"
             )
         )
     reply_text = (
