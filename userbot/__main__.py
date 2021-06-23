@@ -5,7 +5,7 @@ from userbot import BOTLOG_CHATID, HEROKU_APP, PM_LOGGER_GROUP_ID
 
 from .Config import Config
 from .core.logger import logging
-from .core.session import catub
+from .core.session import catub, t_catub
 from .utils import (
     add_bot_to_logger_group,
     ipchange,
@@ -72,5 +72,6 @@ elif not Catcheck.sucess:
 else:
     try:
         catub.run_until_disconnected()
+        t_catub.run_until_disconnected()
     except ConnectionError:
         pass
