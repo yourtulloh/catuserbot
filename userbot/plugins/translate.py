@@ -28,7 +28,7 @@ async def getTranslate(text, **kwargs):
     command=("tl", plugin_category),
     info={
         "header": "To translate the text to required language.",
-        "note": "For langugage codes check [this link](https://da.gd/E8R18)",
+        "note": "For langugage codes check [this link](https://bit.ly/2SRQ6WU)",
         "usage": [
             "{tr}tl <language code> ; <text>",
             "{tr}tl <language codes>",
@@ -108,7 +108,7 @@ async def translateme(trans):
     command=("lang", plugin_category),
     info={
         "header": "To set language for trt/ai command.",
-        "description": "Check here [Language codes](https://da.gd/E8R18)",
+        "description": "Check here [Language codes](https://bit.ly/2SRQ6WU)",
         "options": {
             "trt": "default language for trt command",
             "ai": "default language for chatbot(ai)",
