@@ -205,9 +205,7 @@ async def get_dogbin_content(event):
     textx = await event.get_reply_message()
     url = event.pattern_match.group(2)
     if not url and textx.text:
-        print(1)
         urls = extractor.find_urls(textx.text)
-        print(urls)
         for iurl in urls:
             if (
                 ("pasty" in iurl)
