@@ -99,7 +99,7 @@ async def send_message(
     chatid = entity
     if str(chatid) == str(Config.BOTLOG_CHATID):
         return await client.sendmessage(
-            entity=entity,
+            entity=chatid,
             message=message,
             reply_to=reply_to,
             parse_mode=parse_mode,
@@ -113,10 +113,11 @@ async def send_message(
             schedule=schedule,
             comment_to=comment_to,
         )
+
     msg = message
     if (
         (Config.STRING_SESSION in msg)
-        or (Config.APP_ID in msg)
+        or (str(Config.APP_ID) in msg)
         or (Config.API_HASH in msg)
         or (Config.TG_BOT_TOKEN in msg)
         or (Config.HEROKU_API_KEY and Config.HEROKU_API_KEY in msg)
@@ -213,7 +214,7 @@ async def send_file(
     msg = caption
     if (
         (Config.STRING_SESSION in msg)
-        or (Config.APP_ID in msg)
+        or (str(Config.APP_ID) in msg)
         or (Config.API_HASH in msg)
         or (Config.TG_BOT_TOKEN in msg)
         or (Config.HEROKU_API_KEY and Config.HEROKU_API_KEY in msg)
@@ -304,7 +305,7 @@ async def edit_message(
     main_msg = text
     if (
         (Config.STRING_SESSION in main_msg)
-        or (Config.APP_ID in main_msg)
+        or (str(Config.APP_ID) in main_msg)
         or (Config.API_HASH in main_msg)
         or (Config.TG_BOT_TOKEN in main_msg)
         or (Config.HEROKU_API_KEY and Config.HEROKU_API_KEY in main_msg)
