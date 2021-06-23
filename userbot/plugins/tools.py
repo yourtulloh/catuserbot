@@ -35,7 +35,7 @@ LOGS = logging.getLogger(__name__)
         "description": "To find exchange rates of currencies.",
         "usage": "{tr}cur <value> <from currencyid> <to currencyid>",
         "examples": "{tr}cur 10 USD INR",
-        "note": "List of currency ids are [Country & Currency](https://da.gd/hUziJM) or [Only Currency data](https://da.gd/4WBJp)",
+        "note": "List of currency ids are [Country & Currency](https://da.gd/j588M) or [Only Currency data](https://da.gd/obZIdk)",
     },
 )
 async def currency(event):
