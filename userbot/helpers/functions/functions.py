@@ -3,6 +3,7 @@ import zipfile
 from random import choice
 from textwrap import wrap
 from uuid import uuid4
+from imdb import IMDb
 
 import requests
 from PIL import Image, ImageColor, ImageDraw, ImageFont
@@ -12,10 +13,35 @@ from ...Config import Config
 from ...sql_helper.globals import gvarstatus
 from ..resources.states import states
 
+imdb = IMDb()
+
+async def get_cast(casttype,movie):
+    mov_casttype = ""
+    if casttype in list(movie.keys()):
+        i = 0
+        for j in movie[casttype]:
+            if i < 1:
+                mov_casttype += str(j)
+            elif i < 5:
+                mov_casttype += ", " + str(j)
+            else:
+                break
+            i+=1
+    else:
+        mov_casttype += "Not Data"
+    return mov_casttype
+
+async def get_moviecollections(movie):
+    result = ""
+    if "box office" in movie.keys():
+        for i in movie["box office"].keys():
+            result += f"\n•  <b>{i}:</b> <code>{movie['box office'][i]}</code>"
+    else:
+        result = "No Data"
+    return result
 
 def rand_key():
     return str(uuid4())[:8]
-
 
 async def age_verification(event, reply_to_id):
     ALLOW_NSFW = gvarstatus("ALLOW_NSFW") or "False"
