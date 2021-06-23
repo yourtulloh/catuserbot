@@ -13,13 +13,13 @@ def _format_about(
         tmp_chelp += f"{about['header'].title()}"
         del about["header"]
     if "description" in about and isinstance(about["description"], str):
-        tmp_chelp += "\n\n•  **Description :**\n" f"{about['description'].capitalize()}"
+        tmp_chelp += "\n\n•  **Description :**\n" f"__{about['description'].lower()}__"
         del about["description"]
     if "flags" in about:
         tmp_chelp += "\n\n•  **Available Flags :**"
         if isinstance(about["flags"], dict):
             for f_n, f_d in about["flags"].items():
-                tmp_chelp += f"\n    ▫ `{f_n}` : {f_d.lower()}"
+                tmp_chelp += f"\n    ▫ `{f_n}` : __{f_d.lower()}__"
         else:
             tmp_chelp += f"\n    {about['flags']}"
         del about["flags"]
@@ -27,9 +27,9 @@ def _format_about(
         tmp_chelp += "\n\n•  **Available Options :**"
         if isinstance(about["options"], dict):
             for o_n, o_d in about["options"].items():
-                tmp_chelp += f"\n    ▫ `{o_n}` : {o_d.lower()}"
+                tmp_chelp += f"\n    ▫ `{o_n}` : __{o_d.lower()}__"
         else:
-            tmp_chelp += f"\n    {about['options']}"
+            tmp_chelp += f"\n    __{about['options']}__"
         del about["options"]
     if "types" in about:
         tmp_chelp += "\n\n•  **Supported Types :**"
@@ -37,7 +37,7 @@ def _format_about(
             for _opt in about["types"]:
                 tmp_chelp += f"\n    `{_opt}` ,"
         else:
-            tmp_chelp += f"\n    {about['types']}"
+            tmp_chelp += f"\n    __{about['types']}__"
         del about["types"]
     if "usage" in about:
         tmp_chelp += "\n\n•  **Usage :**"
@@ -56,14 +56,14 @@ def _format_about(
             tmp_chelp += f"\n    `{about['examples']}`"
         del about["examples"]
     if "others" in about:
-        tmp_chelp += f"\n\n•  **Others :**\n{about['others']}"
+        tmp_chelp += f"\n\n•  **Others :**\n__{about['others']}__"
         del about["others"]
     if about:
         for t_n, t_d in about.items():
             tmp_chelp += f"\n\n•  **{t_n.title()} :**\n"
             if isinstance(t_d, dict):
                 for o_n, o_d in t_d.items():
-                    tmp_chelp += f"    ▫ `{o_n}` : {o_d.lower()}\n"
+                    tmp_chelp += f"    ▫ `{o_n}` : __{o_d.lower()}__\n"
             elif isinstance(t_d, list):
                 for _opt in t_d:
                     tmp_chelp += f"    `{_opt}` ,"
