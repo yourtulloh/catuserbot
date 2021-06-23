@@ -15,6 +15,14 @@ from ..resources.states import states
 
 imdb = IMDb()
 
+mov_titles = [
+            "long imdb title",
+            "long imdb canonical title",
+            "smart long imdb canonical title",
+            "smart canonical title",
+            "canonical title",
+            "localized title"
+            ]
 
 async def get_cast(casttype, movie):
     mov_casttype = ""
