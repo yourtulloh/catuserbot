@@ -1,7 +1,16 @@
 from typing import Dict, List, Union
-
+from urlextract import URLExtract
 from ..Config import Config
 
+extractor = URLExtract()
+
+def get_data(about , type):
+    data = about[type]
+    urls = extractor.find_urls(data)
+    if len(urls)>0:
+        return data
+    return data.capitalize()
+    
 
 def _format_about(
     about: Union[str, Dict[str, Union[str, List[str], Dict[str, str]]]]
@@ -14,7 +23,7 @@ def _format_about(
         del about["header"]
     if "description" in about and isinstance(about["description"], str):
         tmp_chelp += (
-            "\n\n•  **Description :**\n" f"__{about['description'].capitalize()}__"
+            "\n\n•  **Description :**\n" f"__{get_data(about , 'description')}__"
         )
         del about["description"]
     if "flags" in about:
@@ -58,19 +67,19 @@ def _format_about(
             tmp_chelp += f"\n    `{about['examples']}`"
         del about["examples"]
     if "others" in about:
-        tmp_chelp += f"\n\n•  **Others :**\n__{about['others']}__"
+        tmp_chelp += f"\n\n•  **Others :**\n__{get_data(about , 'others')}__"
         del about["others"]
     if about:
         for t_n, t_d in about.items():
             tmp_chelp += f"\n\n•  **{t_n.title()} :**\n"
             if isinstance(t_d, dict):
                 for o_n, o_d in t_d.items():
-                    tmp_chelp += f"    ▫ `{o_n}` : __{o_d.lower()}__\n"
+                    tmp_chelp += f"    ▫ `{o_n}` : __{get_data(t_d , o_n)}__\n"
             elif isinstance(t_d, list):
                 for _opt in t_d:
                     tmp_chelp += f"    `{_opt}` ,"
                 tmp_chelp += "\n"
             else:
-                tmp_chelp += f"__{t_d}__"
+                tmp_chelp += f"__{get_data(about ,t_n)}__"
                 tmp_chelp += "\n"
     return tmp_chelp.replace("{tr}", Config.COMMAND_HAND_LER)
