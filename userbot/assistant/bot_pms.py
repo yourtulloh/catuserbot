@@ -12,6 +12,7 @@ from userbot import Config, catub
 
 from ..core import check_owner, pool
 from ..core.logger import logging
+from ..core.session import tgbot
 from ..helpers import reply_id
 from ..helpers.utils import _format
 from ..sql_helper.bot_blacklists import check_is_black_list
@@ -247,7 +248,7 @@ async def bot_pms_edit(event):  # sourcery no-metrics
                     LOGS.error(str(e))
 
 
-@catub.tgbot.on(events.MessageDeleted)
+@tgbot.on(events.MessageDeleted)
 async def handler(event):
     for msg_id in event.deleted_ids:
         users_1 = get_user_reply(msg_id)
