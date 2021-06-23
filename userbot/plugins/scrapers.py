@@ -138,7 +138,7 @@ async def imdb_query(event):  # sourcery no-metrics
         rtext = soup.get_text()
         if len(rtext) > 1024:
             extralimit = len(rtext) - 1024
-            climit = len(resulttext) - extralimit - 50
+            climit = len(resulttext) - extralimit - 20
             resulttext = resulttext[:climit] + "...........</i>"
         if imageurl:
             downloader = SmartDL(imageurl, moviepath, progress_bar=False)
