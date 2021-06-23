@@ -32,7 +32,7 @@ async def get_cast(casttype, movie):
         for j in movie[casttype]:
             if i < 1:
                 mov_casttype += str(j)
-            elif i < 3:
+            elif i < 5:
                 mov_casttype += ", " + str(j)
             else:
                 break
