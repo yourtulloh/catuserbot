@@ -13,7 +13,9 @@ def _format_about(
         tmp_chelp += f"{about['header'].title()}"
         del about["header"]
     if "description" in about and isinstance(about["description"], str):
-        tmp_chelp += "\n\n•  **Description :**\n" f"__{about['description'].capitalize()}__"
+        tmp_chelp += (
+            "\n\n•  **Description :**\n" f"__{about['description'].capitalize()}__"
+        )
         del about["description"]
     if "flags" in about:
         tmp_chelp += "\n\n•  **Available Flags :**"
