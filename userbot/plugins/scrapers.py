@@ -1,7 +1,5 @@
 import os
 
-import bs4
-import requests
 from pySmartDL import SmartDL
 from wikipedia import summary
 from wikipedia.exceptions import DisambiguationError, PageError
@@ -9,8 +7,8 @@ from wikipedia.exceptions import DisambiguationError, PageError
 from userbot import catub
 
 from ..core.managers import edit_or_reply
+from ..helpers.functions import get_cast, get_moviecollections, imdb, mov_titles
 from ..helpers.utils import reply_id
-from ..helpers.functions import imdb, get_cast, get_moviecollections, mov_titles
 from . import BOTLOG, BOTLOG_CHATID
 
 plugin_category = "utils"
@@ -80,10 +78,10 @@ async def imdb(event):  # sourcery no-metrics
     try:
         movie_name = event.pattern_match.group(1)
         movies = imdb.search_movie(movie_name)
-        movieid = movies[0].movieID 
+        movieid = movies[0].movieID
         movie = imdb.get_movie(movieid)
         moviekeys = list(movie.keys())
-        for i in mov_titles :
+        for i in mov_titles:
             if i in moviekeys:
                 mov_title = movie[i]
                 break
@@ -100,14 +98,24 @@ async def imdb(event):  # sourcery no-metrics
             mov_airdate = ""
         mov_genres = ", ".join(movie["genres"]) if "genres" in moviekeys else "Not Data"
         mov_rating = str(movie["rating"]) if "rating" in moviekeys else "Not Data"
-        mov_rating += " (by "+ str(movie["votes"]) + ")"if "votes" in moviekeys and "rating" in moviekeys else ""
-        mov_countries = ", ".join(movie["countries"]) if "countries" in moviekeys else "Not Data"
-        mov_languages = ", ".join(movie["languages"]) if "languages" in moviekeys else "Not Data"
-        mov_plot = str(movie["plot outline"]) if "plot outline" in moviekeys else "Not Data"
-        mov_director = await get_cast("director", movie)  
-        mov_composers = await get_cast("composers", movie)  
-        mov_writer = await get_cast("writer", movie)  
-        mov_cast = await get_cast("cast", movie)  
+        mov_rating += (
+            " (by " + str(movie["votes"]) + ")"
+            if "votes" in moviekeys and "rating" in moviekeys
+            else ""
+        )
+        mov_countries = (
+            ", ".join(movie["countries"]) if "countries" in moviekeys else "Not Data"
+        )
+        mov_languages = (
+            ", ".join(movie["languages"]) if "languages" in moviekeys else "Not Data"
+        )
+        mov_plot = (
+            str(movie["plot outline"]) if "plot outline" in moviekeys else "Not Data"
+        )
+        mov_director = await get_cast("director", movie)
+        mov_composers = await get_cast("composers", movie)
+        mov_writer = await get_cast("writer", movie)
+        mov_cast = await get_cast("cast", movie)
         mov_box = await get_moviecollections(movie)
         resulttext = f"""
 <b>Title : </b><code>{mov_title}</code>
