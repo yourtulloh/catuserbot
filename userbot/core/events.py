@@ -1,13 +1,6 @@
-from telethon import events, functions, types, custom,utils, helpers, hints
-import hashlib
-import io
-import itertools
-import os
-import pathlib
-import re
 import typing
-from io import BytesIO
 
+from telethon import events, functions, hints, types
 
 from .managers import edit_or_reply
 
