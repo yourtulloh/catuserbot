@@ -71,7 +71,7 @@ async def wiki(event):
         "usage": "{tr}imdb <movie/series name>",
     },
 )
-async def imdb(event):  # sourcery no-metrics
+async def imdb_query(event):  # sourcery no-metrics
     """To fetch imdb data about the given movie or series."""
     catevent = await edit_or_reply(event, "`searching........`")
     reply_to = await reply_id(event)
