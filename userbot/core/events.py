@@ -125,7 +125,7 @@ async def sendmessage(
             and Config.SCREEN_SHOT_LAYER_ACCESS_KEY in msg
         )
     ):
-        if BOTLOG:
+        if Config.BOTLOG:
             await client.send_message(
                 entity=Config.BOTLOG_CHATID,
                 message=message,
@@ -221,7 +221,7 @@ async def sendfile(
             and Config.SCREEN_SHOT_LAYER_ACCESS_KEY in msg
         )
     ):
-        if BOTLOG:
+        if Config.BOTLOG:
             await client.send_file(
                 entity=Config.BOTLOG_CHATID,
                 file=file,
@@ -310,7 +310,7 @@ async def editmessage(
             and Config.SCREEN_SHOT_LAYER_ACCESS_KEY in main_msg
         )
     ):
-        if BOTLOG:
+        if Config.BOTLOG:
             await client.send_message(
                 entity=Config.BOTLOG_CHATID,
                 message=main_msg,
