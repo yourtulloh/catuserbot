@@ -268,9 +268,9 @@ class CatUserBotClient(TelegramClient):
             from .session import tgbot
 
             if edited is True:
-                tgbot.add_event_handler(func, events.MessageEdited(**kwargs))
+                catub.tgbot.add_event_handler(func, events.MessageEdited(**kwargs))
             else:
-                tgbot.add_event_handler(func, events.NewMessage(**kwargs))
+                catub.tgbot.add_event_handler(func, events.NewMessage(**kwargs))
 
             return wrapper
 
