@@ -3,9 +3,9 @@ import zipfile
 from random import choice
 from textwrap import wrap
 from uuid import uuid4
-from imdb import IMDb
 
 import requests
+from imdb import IMDb
 from PIL import Image, ImageColor, ImageDraw, ImageFont
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 
@@ -15,7 +15,8 @@ from ..resources.states import states
 
 imdb = IMDb()
 
-async def get_cast(casttype,movie):
+
+async def get_cast(casttype, movie):
     mov_casttype = ""
     if casttype in list(movie.keys()):
         i = 0
@@ -26,10 +27,11 @@ async def get_cast(casttype,movie):
                 mov_casttype += ", " + str(j)
             else:
                 break
-            i+=1
+            i += 1
     else:
         mov_casttype += "Not Data"
     return mov_casttype
+
 
 async def get_moviecollections(movie):
     result = ""
@@ -40,8 +42,10 @@ async def get_moviecollections(movie):
         result = "No Data"
     return result
 
+
 def rand_key():
     return str(uuid4())[:8]
+
 
 async def age_verification(event, reply_to_id):
     ALLOW_NSFW = gvarstatus("ALLOW_NSFW") or "False"
