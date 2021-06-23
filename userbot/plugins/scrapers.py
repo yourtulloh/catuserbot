@@ -131,6 +131,7 @@ async def imdb_query(event):  # sourcery no-metrics
 <b>Writer : </b><code>{mov_writer}</code>
 <b>Stars : </b><code>{mov_cast}</code>
 <b>Box Office : </b>{mov_box}
+
 <b>Story Outline : </b><i>{mov_plot}</i>"""
         if "full-size cover url" in moviekeys:
             imageurl = movie["full-size cover url"]
