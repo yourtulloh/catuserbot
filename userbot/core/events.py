@@ -206,8 +206,8 @@ async def send_file(
             silent=silent,
             supports_streaming=supports_streaming,
             schedule=schedule,
-            comment_to=comment_to ,
-            ** kwargs,
+            comment_to=comment_to,
+            **kwargs,
         )
 
     msg = caption
@@ -244,7 +244,7 @@ async def send_file(
                 supports_streaming=supports_streaming,
                 schedule=schedule,
                 comment_to=comment_to,
-                ** kwargs,
+                **kwargs,
             )
 
         msg = "Sorry I can't send this information in public chats i will send it in Bot Log group check it from there"
@@ -269,7 +269,7 @@ async def send_file(
         supports_streaming=supports_streaming,
         schedule=schedule,
         comment_to=comment_to,
-        ** kwargs,
+        **kwargs,
     )
 
 
