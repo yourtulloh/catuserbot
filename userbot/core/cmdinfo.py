@@ -13,7 +13,7 @@ def _format_about(
         tmp_chelp += f"{about['header'].title()}"
         del about["header"]
     if "description" in about and isinstance(about["description"], str):
-        tmp_chelp += "\n\n•  **Description :**\n" f"__{about['description'].lower()}__"
+        tmp_chelp += "\n\n•  **Description :**\n" f"__{about['description'].capitalize()}__"
         del about["description"]
     if "flags" in about:
         tmp_chelp += "\n\n•  **Available Flags :**"
@@ -69,6 +69,6 @@ def _format_about(
                     tmp_chelp += f"    `{_opt}` ,"
                 tmp_chelp += "\n"
             else:
-                tmp_chelp += t_d
+                tmp_chelp += f"__{t_d}__"
                 tmp_chelp += "\n"
     return tmp_chelp.replace("{tr}", Config.COMMAND_HAND_LER)
