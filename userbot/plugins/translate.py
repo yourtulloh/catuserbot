@@ -108,7 +108,7 @@ async def translateme(trans):
     command=("lang", plugin_category),
     info={
         "header": "To set language for trt/ai command.",
-        "description": "Check here [Language codes](https://telegra.ph/Language-Codes-05-24-2)",
+        "description": "Check here [Language codes](https://da.gd/JsTc)",
         "options": {
             "trt": "default language for trt command",
             "ai": "default language for chatbot(ai)",
