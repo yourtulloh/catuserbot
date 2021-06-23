@@ -129,7 +129,7 @@ async def send_message(
         if Config.BOTLOG:
             await client.sendmessage(
                 entity=Config.BOTLOG_CHATID,
-                message=message,
+                message=msg,
                 reply_to=reply_to,
                 parse_mode=parse_mode,
                 formatting_entities=formatting_entities,
@@ -142,7 +142,23 @@ async def send_message(
                 schedule=schedule,
                 comment_to=comment_to,
             )
+
         msg = "Sorry I can't send this information in public chats i will send it in Bot Log group check it from there"
+        return await client.sendmessage(
+            entity=chatid,
+            message=msg,
+            reply_to=reply_to,
+            parse_mode=parse_mode,
+            formatting_entities=formatting_entities,
+            link_preview=link_preview,
+            file=file,
+            force_document=force_document,
+            clear_draft=clear_draft,
+            buttons=buttons,
+            silent=silent,
+            schedule=schedule,
+            comment_to=comment_to,
+        )
     return await client.sendmessage(
         entity=chatid,
         message=msg,
@@ -249,6 +265,29 @@ async def send_file(
             )
 
         msg = "Sorry I can't send this information in public chats i will send it in Bot Log group check it from there"
+        return await client.sendfile(
+                entity=chatid,
+                file=file,
+                caption=msg,
+                force_document=force_document,
+                file_size=file_size,
+                clear_draft=clear_draft,
+                progress_callback=progress_callback,
+                reply_to=reply_to,
+                attributes=attributes,
+                thumb=thumb,
+                allow_cache=allow_cache,
+                parse_mode=parse_mode,
+                formatting_entities=formatting_entities,
+                voice_note=voice_note,
+                video_note=video_note,
+                buttons=buttons,
+                silent=silent,
+                supports_streaming=supports_streaming,
+                schedule=schedule,
+                comment_to=comment_to,
+                **kwargs,
+            )
     return await client.sendfile(
         entity=chatid,
         file=file,
@@ -327,15 +366,27 @@ async def edit_message(
                 schedule=schedule,
             )
         msg = "Sorry I can't send this information in public chats i will send it in Bot Log group check it from there"
+        return await client.editmessage(
+            entity=chatid,
+            message=message,
+            text=msg,
+            parse_mode=parse_mode,
+            formatting_entities=formatting_entities,
+            link_preview=link_preview,
+            file=file,
+            force_document=force_document,
+            buttons=buttons,
+            schedule=schedule,
+        )
     return await client.editmessage(
-        entity=chatid,
-        message=message,
-        text=msg,
-        parse_mode=parse_mode,
-        formatting_entities=formatting_entities,
-        link_preview=link_preview,
-        file=file,
-        force_document=force_document,
-        buttons=buttons,
-        schedule=schedule,
-    )
+            entity=chatid,
+            message=message,
+            text=main_msg ,
+            parse_mode=parse_mode,
+            formatting_entities=formatting_entities,
+            link_preview=link_preview,
+            file=file,
+            force_document=force_document,
+            buttons=buttons,
+            schedule=schedule,
+        )
