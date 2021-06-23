@@ -150,9 +150,9 @@ async def load_plugins(folder):
     files.sort()
     for name in files:
         with open(name) as f:
-            path1 = Path(f.name)
-            shortname = path1.stem
-            try:
+                path1 = Path(f.name)
+                shortname = path1.stem
+#             try:
                 if shortname.replace(".py", "") not in Config.NO_LOAD:
                     flag = True
                     check = 0
@@ -170,9 +170,9 @@ async def load_plugins(folder):
                                 break
                 else:
                     os.remove(Path(f"userbot/{folder}/{shortname}.py"))
-            except Exception as e:
-                os.remove(Path(f"userbot/{folder}/{shortname}.py"))
-                LOGS.info(f"unable to load {shortname} because of error {e}")
+#             except Exception as e:
+#                 os.remove(Path(f"userbot/{folder}/{shortname}.py"))
+#                 LOGS.info(f"unable to load {shortname} because of error {e}")
 
 
 async def verifyLoggerGroup():
