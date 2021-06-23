@@ -200,10 +200,10 @@ async def _(event):
         "usage": ["{tr}getpaste <link>", "{tr}gpaste <link>"],
     },
 )
-async def get_dogbin_content(evnet):
+async def get_dogbin_content(event):
     "To paste text into telegram from del dog link."
-    textx = await evnet.get_reply_message()
-    url = evnet.pattern_match.group(2)
+    textx = await event.get_reply_message()
+    url = event.pattern_match.group(2)
     if url is None and textx.text:
         urls = extractor.find_urls(textx.text)
         for iurl in urls:
@@ -217,6 +217,7 @@ async def get_dogbin_content(evnet):
                 break
     if not url:
         return await edit_delete(event, "__I can't find any pastebin link.__")
+    catevent = await edit_or_reply(event,"`Getting Contents of pastebin.....`")
     rawurl = None
     if "raw" in url:
         rawurl = url
