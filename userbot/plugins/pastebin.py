@@ -239,7 +239,7 @@ async def get_dogbin_content(event):
             f"**Request returned an unsuccessful status code.**\n\n__{str(HTTPErr)}__"
         )
     except requests.exceptions.Timeout as TimeoutErr:
-        return await catevent.edit(f"**Request timed out.**__{str(TimeoutErr))}__")
+        return await catevent.edit(f"**Request timed out.**__{str(TimeoutErr)}__")
     except requests.exceptions.TooManyRedirects as RedirectsErr:
         return await catevent.edit(
             (
@@ -247,8 +247,7 @@ async def get_dogbin_content(event):
             )
         )
     reply_text = (
-        "**Fetched dogbin URL content successfully!**\n\n**Content:** \n"
-        + f"```{resp.text}```"
+        f"**Fetched dogbin URL content successfully!**\n\n**Content:** \n```{resp.text}```"
     )
     await edit_or_reply(catevent, reply_text)
 
