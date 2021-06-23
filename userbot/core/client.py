@@ -264,7 +264,9 @@ class CatUserBotClient(TelegramClient):
                         await check.client.send_message(
                             Config.PRIVATE_GROUP_BOT_API_ID, text, link_preview=False
                         )
+
             from .session import catub
+
             if edited is True:
                 catub.tgbot.add_event_handler(func, events.MessageEdited(**kwargs))
             else:
