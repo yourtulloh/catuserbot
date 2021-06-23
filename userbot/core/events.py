@@ -79,7 +79,7 @@ class MessageEdited(NewMessage):
         pass
 
 
-async def send_message(
+async def sendmessage(
     client,
     entity: "hints.EntityLike",
     message: "hints.MessageLike" = "",
@@ -159,7 +159,7 @@ async def send_message(
     )
 
 
-async def send_file(
+async def sendfile(
     client,
     entity: "hints.EntityLike",
     file: "typing.Union[hints.FileLike, typing.Sequence[hints.FileLike]]",
@@ -270,7 +270,7 @@ async def send_file(
     )
 
 
-async def edit_message(
+async def editmessage(
     client,
     entity: "typing.Union[hints.EntityLike, types.Message]",
     message: "hints.MessageLike" = None,
