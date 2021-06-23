@@ -204,8 +204,10 @@ async def get_dogbin_content(event):
     "To paste text into telegram from del dog link."
     textx = await event.get_reply_message()
     url = event.pattern_match.group(2)
-    if url is None and textx.text:
+    if not url and textx.text:
+        print(1)
         urls = extractor.find_urls(textx.text)
+        print(urls)
         for iurl in urls:
             if (
                 ("pasty" in iurl)
