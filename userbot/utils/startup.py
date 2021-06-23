@@ -13,7 +13,7 @@ from userbot import BOTLOG, BOTLOG_CHATID, PM_LOGGER_GROUP_ID
 from ..Config import Config
 from ..core.logger import logging
 from ..core.session import catub
-from ..helpers.utils.extdl import install_pip
+from ..helpers.utils import install_pip
 from ..sql_helper.global_collection import (
     del_keyword_collectionlist,
     get_item_collectionlist,
@@ -152,29 +152,27 @@ async def load_plugins(folder):
         with open(name) as f:
             path1 = Path(f.name)
             shortname = path1.stem
-            #             try:
-            if shortname.replace(".py", "") not in Config.NO_LOAD:
-                flag = True
-                check = 0
-                while flag:
-                    try:
-                        load_module(
-                            shortname.replace(".py", ""),
-                            plugin_path=f"userbot/{folder}",
-                        )
-                        break
-                    except ModuleNotFoundError as e:
-                        install_pip(e.name)
-                        check += 1
-                        if check > 5:
+            try:
+                if shortname.replace(".py", "") not in Config.NO_LOAD:
+                    flag = True
+                    check = 0
+                    while flag:
+                        try:
+                            load_module(
+                                shortname.replace(".py", ""),
+                                plugin_path=f"userbot/{folder}",
+                            )
                             break
-            else:
+                        except ModuleNotFoundError as e:
+                            install_pip(e.name)
+                            check += 1
+                            if check > 5:
+                                break
+                else:
+                    os.remove(Path(f"userbot/{folder}/{shortname}.py"))
+            except Exception as e:
                 os.remove(Path(f"userbot/{folder}/{shortname}.py"))
-
-
-#             except Exception as e:
-#                 os.remove(Path(f"userbot/{folder}/{shortname}.py"))
-#                 LOGS.info(f"unable to load {shortname} because of error {e}")
+                LOGS.info(f"unable to load {shortname} because of error {e}")
 
 
 async def verifyLoggerGroup():
