@@ -12,7 +12,6 @@ from userbot import Config, catub
 
 from ..core import check_owner, pool
 from ..core.logger import logging
-from ..core.session import tgbot
 from ..helpers import reply_id
 from ..helpers.utils import _format
 from ..sql_helper.bot_blacklists import check_is_black_list
