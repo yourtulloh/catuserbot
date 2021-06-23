@@ -143,7 +143,7 @@ async def send_message(
                 comment_to=comment_to,
             )
 
-        msg = "Sorry I can't send this information in public chats i will send it in Bot Log group check it from there"
+        msg = "__Sorry I can't send this information in public chats i will send it in Bot Log group check it from there.__"
         return await client.sendmessage(
             entity=chatid,
             message=msg,
@@ -264,7 +264,7 @@ async def send_file(
                 **kwargs,
             )
 
-        msg = "Sorry I can't send this information in public chats i will send it in Bot Log group check it from there"
+        msg = "__Sorry I can't send this information in public chats i will send it in Bot Log group check it from there__"
         return await client.sendfile(
             entity=chatid,
             file=file,
@@ -365,7 +365,7 @@ async def edit_message(
                 buttons=buttons,
                 schedule=schedule,
             )
-        msg = "Sorry I can't send this information in public chats i will send it in Bot Log group check it from there"
+        msg = "__Sorry I can't send this information in public chats i will send it in Bot Log group check it from there__"
         return await client.editmessage(
             entity=chatid,
             message=message,
