@@ -75,12 +75,23 @@ class MessageEdited(NewMessage):
     class Event(NewMessage.Event):
         pass
 
+
 async def send_message(client, **kwargs):
-    chatid = kwargs.get("entity",-100)
+    chatid = kwargs.get("entity", -100)
     if str(chatid) == str(Config.BOTLOG_CHATID):
         return await client.send_message(**kwargs)
-    msg = kwargs.get("message","")
-    if (Config.STRING_SESSION in msg) or (Config.APP_ID in msg) or (Config.API_HASH in msg) or (Config.TG_BOT_TOKEN in msg) or (Config.HEROKU_API_KEY and Config.HEROKU_API_KEY in msg) or (Config.SCREEN_SHOT_LAYER_ACCESS_KEY and Config.SCREEN_SHOT_LAYER_ACCESS_KEY in msg):
+    msg = kwargs.get("message", "")
+    if (
+        (Config.STRING_SESSION in msg)
+        or (Config.APP_ID in msg)
+        or (Config.API_HASH in msg)
+        or (Config.TG_BOT_TOKEN in msg)
+        or (Config.HEROKU_API_KEY and Config.HEROKU_API_KEY in msg)
+        or (
+            Config.SCREEN_SHOT_LAYER_ACCESS_KEY
+            and Config.SCREEN_SHOT_LAYER_ACCESS_KEY in msg
+        )
+    ):
         if BOTLOG:
             kwargs["entity"] = Config.BOTLOG_CHATID
             await client.send_message(**kwargs)
@@ -89,12 +100,23 @@ async def send_message(client, **kwargs):
     kwargs["entity"] = chatid
     return await client.send_message(**kwargs)
 
+
 async def send_file(client, **kwargs):
-    chatid = kwargs.get("entity",-100)
+    chatid = kwargs.get("entity", -100)
     if str(chatid) == str(Config.BOTLOG_CHATID):
         return await client.send_file(**kwargs)
-    msg = kwargs.get("caption","")
-    if (Config.STRING_SESSION in msg) or (Config.APP_ID in msg) or (Config.API_HASH in msg) or (Config.TG_BOT_TOKEN in msg) or (Config.HEROKU_API_KEY and Config.HEROKU_API_KEY in msg) or (Config.SCREEN_SHOT_LAYER_ACCESS_KEY and Config.SCREEN_SHOT_LAYER_ACCESS_KEY in msg):
+    msg = kwargs.get("caption", "")
+    if (
+        (Config.STRING_SESSION in msg)
+        or (Config.APP_ID in msg)
+        or (Config.API_HASH in msg)
+        or (Config.TG_BOT_TOKEN in msg)
+        or (Config.HEROKU_API_KEY and Config.HEROKU_API_KEY in msg)
+        or (
+            Config.SCREEN_SHOT_LAYER_ACCESS_KEY
+            and Config.SCREEN_SHOT_LAYER_ACCESS_KEY in msg
+        )
+    ):
         if BOTLOG:
             kwargs["entity"] = Config.BOTLOG_CHATID
             await client.send_file(**kwargs)
@@ -102,13 +124,24 @@ async def send_file(client, **kwargs):
     kwargs["caption"] = msg
     kwargs["entity"] = chatid
     return await client.send_file(**kwargs)
-    
+
+
 async def edit_message(client, **kwargs):
-    chatid = kwargs.get("entity",-100)
+    chatid = kwargs.get("entity", -100)
     if str(chatid) == str(Config.BOTLOG_CHATID):
         return await client.edit_message(**kwargs)
-    msg = kwargs.get("message","")
-    if (Config.STRING_SESSION in msg) or (Config.APP_ID in msg) or (Config.API_HASH in msg) or (Config.TG_BOT_TOKEN in msg) or (Config.HEROKU_API_KEY and Config.HEROKU_API_KEY in msg) or (Config.SCREEN_SHOT_LAYER_ACCESS_KEY and Config.SCREEN_SHOT_LAYER_ACCESS_KEY in msg):
+    msg = kwargs.get("message", "")
+    if (
+        (Config.STRING_SESSION in msg)
+        or (Config.APP_ID in msg)
+        or (Config.API_HASH in msg)
+        or (Config.TG_BOT_TOKEN in msg)
+        or (Config.HEROKU_API_KEY and Config.HEROKU_API_KEY in msg)
+        or (
+            Config.SCREEN_SHOT_LAYER_ACCESS_KEY
+            and Config.SCREEN_SHOT_LAYER_ACCESS_KEY in msg
+        )
+    ):
         if BOTLOG:
             kwargs["entity"] = Config.BOTLOG_CHATID
             await client.edit_message(**kwargs)
