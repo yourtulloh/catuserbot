@@ -133,6 +133,8 @@ async def imdb_query(event):  # sourcery no-metrics
 <b>Story Outline : </b><i>{mov_plot}</i>"""
         if "full-size cover url" in moviekeys:
             imageurl = movie["full-size cover url"]
+        if len(resulttext) > 1024:
+            resulttext = resulttext[:1000]+"..........."
         if imageurl:
             downloader = SmartDL(imageurl, moviepath, progress_bar=False)
             downloader.start(blocking=False)
