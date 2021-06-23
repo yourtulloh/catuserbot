@@ -246,9 +246,7 @@ async def get_dogbin_content(event):
                 f"**Request exceeded the configured number of maximum redirections.**__{str(RedirectsErr)}__"
             )
         )
-    reply_text = (
-        f"**Fetched dogbin URL content successfully!**\n\n**Content:** \n```{resp.text}```"
-    )
+    reply_text = f"**Fetched dogbin URL content successfully!**\n\n**Content:** \n```{resp.text}```"
     await edit_or_reply(catevent, reply_text)
 
 
