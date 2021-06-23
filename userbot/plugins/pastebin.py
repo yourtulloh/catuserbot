@@ -196,8 +196,8 @@ async def _(event):
     info={
         "header": "To paste text into telegram from pastebin link.",
         "description": "Gets the content of a pastebin. You can provide link along with cmd or reply to link.",
-        "Support bins": ["pasty","spacebin","nekobin","dogbin"],
-        "usage": ["{tr}getpaste <link>","{tr}gpaste <link>"],
+        "Support bins": ["pasty", "spacebin", "nekobin", "dogbin"],
+        "usage": ["{tr}getpaste <link>", "{tr}gpaste <link>"],
     },
 )
 async def get_dogbin_content(evnet):
@@ -207,11 +207,16 @@ async def get_dogbin_content(evnet):
     if url is None and textx.text:
         urls = extractor.find_urls(textx.text)
         for iurl in urls:
-            if ("pasty" in iurl) or ("spaceb" in iurl) or ("nekobin" in iurl) or ("dog" in iurl):
+            if (
+                ("pasty" in iurl)
+                or ("spaceb" in iurl)
+                or ("nekobin" in iurl)
+                or ("dog" in iurl)
+            ):
                 url = iurl
                 break
     if not url:
-        return await edit_delete(event,"__I can't find any pastebin link.__")
+        return await edit_delete(event, "__I can't find any pastebin link.__")
     rawurl = None
     if "raw" in url:
         rawurl = url
@@ -230,19 +235,20 @@ async def get_dogbin_content(evnet):
         resp.raise_for_status()
     except requests.exceptions.HTTPError as HTTPErr:
         return await catevent.edit(
-            'Request returned an unsuccessful status code.\n\n' + str(HTTPErr)
+            "Request returned an unsuccessful status code.\n\n" + str(HTTPErr)
         )
     except requests.exceptions.Timeout as TimeoutErr:
-        return await catevent.edit('Request timed out.' + str(TimeoutErr))
+        return await catevent.edit("Request timed out." + str(TimeoutErr))
     except requests.exceptions.TooManyRedirects as RedirectsErr:
         return await catevent.edit(
             (
-                'Request exceeded the configured number of maximum redirections.'
+                "Request exceeded the configured number of maximum redirections."
                 + str(RedirectsErr)
             )
         )
     reply_text = (
-        "**Fetched dogbin URL content successfully!**\n\n**Content:** \n" + f"```{resp.text}```"
+        "**Fetched dogbin URL content successfully!**\n\n**Content:** \n"
+        + f"```{resp.text}```"
     )
     await edit_or_reply(catevent, reply_text)
 
