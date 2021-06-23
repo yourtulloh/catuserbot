@@ -1,16 +1,19 @@
 from typing import Dict, List, Union
+
 from urlextract import URLExtract
+
 from ..Config import Config
 
 extractor = URLExtract()
 
-def get_data(about , type):
+
+def get_data(about, type):
     data = about[type]
     urls = extractor.find_urls(data)
-    if len(urls)>0:
+    if len(urls) > 0:
         return data
     return data.capitalize()
-    
+
 
 def _format_about(
     about: Union[str, Dict[str, Union[str, List[str], Dict[str, str]]]]
