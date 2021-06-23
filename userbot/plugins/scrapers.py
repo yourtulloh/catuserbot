@@ -1,9 +1,10 @@
 import os
 
+from bs4 import BeautifulSoup
 from pySmartDL import SmartDL
 from wikipedia import summary
 from wikipedia.exceptions import DisambiguationError, PageError
-from bs4 import BeautifulSoup
+
 from userbot import catub
 
 from ..core.managers import edit_or_reply
@@ -136,8 +137,8 @@ async def imdb_query(event):  # sourcery no-metrics
         soup = BeautifulSoup(resulttext, features="html.parser")
         rtext = soup.get_text()
         if len(rtext) > 1024:
-            extralimit = len(rtext)-1024
-            limit = len(resulttext)-extralimit-50
+            extralimit = len(rtext) - 1024
+            len(resulttext) - extralimit - 50
             resulttext = resulttext[:1000] + "...........</i>"
         if imageurl:
             downloader = SmartDL(imageurl, moviepath, progress_bar=False)
