@@ -98,7 +98,7 @@ async def send_message(
 ):
     chatid = entity
     if str(chatid) == str(Config.BOTLOG_CHATID):
-        return await client.send_message(
+        return await client.sendmessage(
             entity=entity,
             message=message,
             reply_to=reply_to,
@@ -126,7 +126,7 @@ async def send_message(
         )
     ):
         if Config.BOTLOG:
-            await client.send_message(
+            await client.sendmessage(
                 entity=Config.BOTLOG_CHATID,
                 message=message,
                 reply_to=reply_to,
@@ -142,7 +142,7 @@ async def send_message(
                 comment_to=comment_to,
             )
         msg = "Sorry I can't send this information in public chats i will send it in Bot Log group check it from there"
-    return await client.send_message(
+    return await client.sendmessage(
         entity=chatid,
         message=msg,
         reply_to=reply_to,
@@ -186,7 +186,7 @@ async def send_file(
 ):
     chatid = entity
     if str(chatid) == str(Config.BOTLOG_CHATID):
-        return await client.send_file(
+        return await client.sendfile(
             entity=chatid,
             file=file,
             caption=caption,
@@ -223,7 +223,7 @@ async def send_file(
         )
     ):
         if Config.BOTLOG:
-            await client.send_file(
+            await client.sendfile(
                 entity=Config.BOTLOG_CHATID,
                 file=file,
                 caption=msg,
@@ -248,7 +248,7 @@ async def send_file(
             )
 
         msg = "Sorry I can't send this information in public chats i will send it in Bot Log group check it from there"
-    return await client.send_file(
+    return await client.sendfile(
         entity=chatid,
         file=file,
         caption=msg,
@@ -289,7 +289,7 @@ async def edit_message(
 ):
     chatid = entity
     if str(chatid) == str(Config.BOTLOG_CHATID):
-        return await client.edit_message(
+        return await client.editmessage(
             entity=entity,
             message=message,
             text=text,
@@ -314,7 +314,7 @@ async def edit_message(
         )
     ):
         if Config.BOTLOG:
-            await client.send_message(
+            await client.sendmessage(
                 entity=Config.BOTLOG_CHATID,
                 message=main_msg,
                 parse_mode=parse_mode,
@@ -326,7 +326,7 @@ async def edit_message(
                 schedule=schedule,
             )
         msg = "Sorry I can't send this information in public chats i will send it in Bot Log group check it from there"
-    return await client.edit_message(
+    return await client.editmessage(
         entity=chatid,
         message=message,
         text=msg,
