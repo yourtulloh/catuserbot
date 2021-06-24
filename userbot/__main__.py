@@ -72,6 +72,5 @@ elif not Catcheck.sucess:
 else:
     try:
         catub.run_until_disconnected()
-        t_catub.run_until_disconnected()
     except ConnectionError:
         pass
