@@ -12,6 +12,9 @@ from userbot import catub
 
 from ..core.managers import edit_or_reply
 
+from ..core.logger import logging
+
+LOGS = logging.getLogger(__name__)
 plugin_category = "misc"
 
 
@@ -182,7 +185,7 @@ def mega_dl(url: str) -> str:
     result = popen(command).read()
     try:
         data = json.loads(result)
-        print(data)
+        LOGS.info(data)
     except json.JSONDecodeError:
         reply += "`Error: Can't extract the link`\n"
         return reply

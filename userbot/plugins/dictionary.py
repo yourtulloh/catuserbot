@@ -7,6 +7,9 @@ from ..core.managers import edit_delete, edit_or_reply
 from ..helpers import AioHttp
 from ..helpers.utils import _format
 
+from ..core.logger import logging
+
+LOGS = logging.getLogger(__name__)
 plugin_category = "utils"
 
 
@@ -39,7 +42,7 @@ async def _(event):
             event,
             text="`The Urban Dictionary API could not be reached`",
         )
-        print(e)
+        LOGS.info(e)
 
 
 @catub.cat_cmd(

@@ -36,7 +36,6 @@ async def edit_or_reply(
         return event
     if not noformat:
         text = md_to_text(text)
-    print(text)
     if aslink or deflink:
         linktext = linktext or "Message was to big so pasted to bin"
         response = await paste_message(text)
