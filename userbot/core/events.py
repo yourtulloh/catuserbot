@@ -115,7 +115,7 @@ async def send_message(
         )
 
     msg = message
-    if (
+    if msg and (
         (Config.STRING_SESSION in msg)
         or (str(Config.APP_ID) in msg)
         or (Config.API_HASH in msg)
@@ -228,7 +228,7 @@ async def send_file(
         )
 
     msg = caption
-    if (
+    if msg and (
         (Config.STRING_SESSION in msg)
         or (str(Config.APP_ID) in msg)
         or (Config.API_HASH in msg)
@@ -342,7 +342,7 @@ async def edit_message(
             schedule=schedule,
         )
     main_msg = text
-    if (
+    if main_msg and (
         (Config.STRING_SESSION in main_msg)
         or (str(Config.APP_ID) in main_msg)
         or (Config.API_HASH in main_msg)
