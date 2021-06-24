@@ -51,6 +51,9 @@ def load_module(shortname, plugin_path=None):
         mod.install_pip = install_pip
         mod.parse_pre = _format.parse_pre
         mod.edit_or_reply = edit_or_reply
+        mod.sendmessage = send_message
+        mod.sendfile = send_file
+        mod.editmessage = edit_message
         mod.logger = logging.getLogger(shortname)
         mod.borg = catub
         spec.loader.exec_module(mod)
