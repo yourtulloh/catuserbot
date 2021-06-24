@@ -450,7 +450,7 @@ async def _(event):
             "autobio": "To stop autobio",
             "thorpfp": "To stop thorpfp",
             "batmanpfp": "To stop batmanpfp",
-            "spam" : "To stop spam",
+            "spam": "To stop spam",
         },
         "usage": "{tr}end <option>",
         "examples": ["{tr}end autopic"],

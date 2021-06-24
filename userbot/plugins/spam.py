@@ -7,10 +7,11 @@ from telethon.tl.functions.messages import ImportChatInviteRequest as Get
 from telethon.utils import get_display_name
 
 from userbot import catub
-from ..sql_helper.globals import addgvar, delgvar, gvarstatus
+
 from ..core.managers import edit_delete, edit_or_reply
 from ..helpers.tools import media_type
 from ..helpers.utils import _catutils
+from ..sql_helper.globals import addgvar, gvarstatus
 from . import BOTLOG, BOTLOG_CHATID
 
 plugin_category = "extra"
@@ -195,7 +196,7 @@ async def stickerpack_spam(event):
     addgvar("spamwork", True)
     for m in reqd_sticker_set.documents:
         if gvarstatus("spamwork") is None:
-                return
+            return
         await event.client.send_file(event.chat_id, m)
         await asyncio.sleep(0.7)
     if BOTLOG:
@@ -232,7 +233,7 @@ async def tmeme(event):
     addgvar("spamwork", True)
     for letter in message:
         if gvarstatus("spamwork") is None:
-                return
+            return
         await event.respond(letter)
     if BOTLOG:
         if event.is_private:
@@ -267,7 +268,7 @@ async def tmeme(event):
     addgvar("spamwork", True)
     for word in message:
         if gvarstatus("spamwork") is None:
-                return
+            return
         await event.respond(word)
     if BOTLOG:
         if event.is_private:
