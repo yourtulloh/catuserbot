@@ -71,7 +71,7 @@ async def subprocess_run(megadl, cmd):
         "usage": "{tr}mega <mega.nz link>",
     },
 )
-async def mega_downloader(megadl):  # sourcery no-metrics
+async def mega_downloader(megadl):    # sourcery no-metrics
     "To download mega files from mega.nz links."
     catevent = await edit_or_reply(megadl, "`Collecting information...`")
     if not os.path.isdir(TMP_DOWNLOAD_DIRECTORY):
@@ -122,7 +122,7 @@ async def mega_downloader(megadl):  # sourcery no-metrics
     try:
         downloader.start(blocking=False)
     except HTTPError as e:
-        await catevent.edit(f"**HTTPError**: `{str(e)}`")
+        await catevent.edit(f'**HTTPError**: `{e}`')
         return None
     start = time.time()
     while not downloader.isFinished():
@@ -174,7 +174,7 @@ async def mega_downloader(megadl):  # sourcery no-metrics
             P.start()
             P.join()
         except FileNotFoundError as e:
-            await catevent.edit(f"`{str(e)}`")
+            await catevent.edit(f'`{e}`')
             return None
         else:
             await catevent.edit(
