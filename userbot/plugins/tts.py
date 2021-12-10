@@ -91,9 +91,7 @@ async def _(event):
         os.remove(required_file_name)
         await edit_delete(
             catevent,
-            "`Processed text {} into voice in {} seconds!`".format(
-                text[:20], ms
-            ),
+            "`Processed text {} into voice in {} seconds!`".format(text[:20], ms),
         )
 
     except Exception as e:
