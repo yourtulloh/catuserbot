@@ -232,7 +232,7 @@ async def inline_handler(event):  # sourcery no-metrics
             ALIVE_PIC = gvarstatus("ALIVE_PIC")
             IALIVE_PIC = gvarstatus("IALIVE_PIC")
             if IALIVE_PIC:
-                CAT = [x for x in IALIVE_PIC.split()]
+                CAT = list(IALIVE_PIC.split())
                 PIC = list(CAT)
                 I_IMG = random.choice(PIC)
             if not IALIVE_PIC and ALIVE_PIC:
